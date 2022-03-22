@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from appstack.bootlab.io/dashboard-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 18 Feb 2022 07:08:06 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Bootstrap 5 Admin &amp; Dashboard Template">
+    <meta name="author" content="Bootlab">
+
+    <title>Edit Product</title>
+
+    <link rel="canonical" href="dashboard-default.html"/>
+    <link rel="shortcut icon" th:href="@{/management/img/favicon.ico}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <link class="js-stylesheet" th:href="@{/management/css/light.css}" rel="stylesheet">
+
+    <link class="js-stylesheet" th:href="@{/management/css/movie.css}" rel="stylesheet">
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+<div class="wrapper">
+    <th:block th:insert="~{management/fragments/sidebar}"></th:block>
+    <div class="main">
+        <th:block th:insert="~{management/fragments/topbar}"></th:block>
+
+        <main class="content">
+
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-3">Edit Product</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="edit-order-form" enctype="multipart/form-data">
+                                    <input type="hidden" th:value="${order.id}" id="orderID">
+                                    <div class="mb-3">
+                                        <label class="form-label">First name<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" placeholder="First name" required
+                                               id="firstName" name="firstName" th:value="${order.firstName}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Last name<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Last name" required
+                                               id="lastName" name="lastName" th:value="${order.lastName}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Last name" required
+                                               id="email" name="email" th:value="${order.email}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Address<span style="color: red">*</span></label>
+                                        <textarea class="form-control" placeholder="Description" rows="2" id="address"
+                                                  name="address" th:value="${order.address}" th:text="${order.address}"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Postcode<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Last name" required
+                                               id="postcode" name="postcode" th:value="${order.postcode}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Last name" required
+                                               id="phone" name="phone" th:value="${order.phone}">
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="btn-edit">Submit</button>
+                                    <button type="button" class="btn btn-primary" id="back-btn">Back</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <th:block th:insert="~{management/fragments/footer}"></th:block>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"
+        type="text/javascript"></script>
+<script th:src="@{/management/js/app.js}"></script>
+<script th:src="@{/management/js/order.js}"></script>
+
+</body>
+
+</html>

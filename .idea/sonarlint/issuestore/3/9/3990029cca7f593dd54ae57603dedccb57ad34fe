@@ -1,0 +1,40 @@
+
+P
+java:S1118":Add a private constructor to hide the implicit public one.(‹Åæ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÅÚİµúÿÿÿÿ
+]
+java:S3973)"GUse indentation to denote the code conditionally executed by this "if".(ŠŸ‰š
+b
+java:S3973,"GUse indentation to denote the code conditionally executed by this "if".(üµŞİıÿÿÿÿ
+b
+java:S3973/"GUse indentation to denote the code conditionally executed by this "if".(òÿìúÿÿÿÿ
+]
+java:S39732"GUse indentation to denote the code conditionally executed by this "if".(Ü»Ñ˜
+b
+java:S39735"GUse indentation to denote the code conditionally executed by this "if".(›¯¶àşÿÿÿÿ
+]
+java:S39738"GUse indentation to denote the code conditionally executed by this "if".(Ï‚öÊ
+b
+java:S3973;"GUse indentation to denote the code conditionally executed by this "if".(ô­à®üÿÿÿÿ
+]
+java:S3973C"GUse indentation to denote the code conditionally executed by this "if".(©ÙëÚ
+]
+java:S3973F"GUse indentation to denote the code conditionally executed by this "if".(»…ªê
+\
+java:S3973P"GUse indentation to denote the code conditionally executed by this "if".(ê•Ë
+b
+java:S3973S"GUse indentation to denote the code conditionally executed by this "if".(ñƒ÷æøÿÿÿÿ
+b
+java:S3973V"GUse indentation to denote the code conditionally executed by this "if".(ûŒçøÿÿÿÿ
+b
+java:S3973Y"GUse indentation to denote the code conditionally executed by this "if".(§¶˜µúÿÿÿÿ
+b
+java:S3973\"GUse indentation to denote the code conditionally executed by this "if".(—€·ƒÿÿÿÿÿ
+b
+java:S3973_"GUse indentation to denote the code conditionally executed by this "if".(‚ê¦ßÿÿÿÿÿ
+b
+java:S3973b"GUse indentation to denote the code conditionally executed by this "if".(ŞÛÂ½şÿÿÿÿ
+]
+java:S3973e"GUse indentation to denote the code conditionally executed by this "if".(æø“¦
+
+java:S2681H"†This line will not be executed conditionally; only the first line of this 2-line block will be. The rest will execute unconditionally.(ü¬·ò

@@ -1,0 +1,11 @@
+
+o	java:S116"URename this field "SECRET_KEY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éÚ­¥øÿÿÿÿ
+o	java:S116"ZRename this field "TIME_EXPIRATION" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍŞÀ
+<
+java:S1170"!Make this final field static too.(éÚ­¥øÿÿÿÿ
+F
+java:S1874)"0Remove this use of "signWith"; it is deprecated.(Áãşÿ
+e
+java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÅÚİµúÿÿÿÿ
+Tsecrets:S6290"6Make sure this AWS Secret Access Key is not disclosed.(éÚ­¥øÿÿÿÿ

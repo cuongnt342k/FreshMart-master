@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<!-- Mirrored from demo1.cloodo.com/html/freshmart/user-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Feb 2022 15:51:57 GMT -->
+<head>
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FreshMart - Organic, Fresh Food, Farm Store HTML Template</title>
+
+    <meta name="keywords" content="Organic, Fresh Food, Farm Store">
+    <meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
+    <meta name="author" content="tivatheme">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <th:block th:insert="~{/fragments/css}"></th:block>
+</head>
+
+<body class="home home-1">
+<div id="all">
+    <!-- Header -->
+    <th:block th:insert="~{/fragments/header}"></th:block>
+
+
+    <!-- Main Content -->
+    <div id="content" class="site-content">
+        <!-- Breadcrumb -->
+        <div id="breadcrumb">
+            <div class="container">
+                <h2 class="title">Create Account</h2>
+
+                <ul class="breadcrumb">
+                    <li><a href="#" title="Home">Home</a></li>
+                    <li><span>Create Account</span></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="register-page">
+                <div class="register-form form">
+                    <div class="block-title">
+                        <h2 class="title"><span>Create Account</span></h2>
+                    </div>
+
+                    <form action="http://demo1.cloodo.com/html/freshmart/index.html" method="post"
+                          enctype="multipart/form-data" id="register-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" id="full_name" required minlength="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <input type="text" name="user_name" id="user_name" required minlength="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" required minlength="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" id="password" required minlength="5">
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="button" class="btn btn-primary" id="register-btn" value="Create Account">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <th:block th:insert="~{/fragments/footer}"></th:block>
+</div>
+<th:block th:insert="~{/fragments/script}"></th:block>
+<script th:src="@{/js/register.js}"></script>
+</body>
+</body>
+
+<!-- Mirrored from demo1.cloodo.com/html/freshmart/user-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Feb 2022 15:51:57 GMT -->
+</html>
