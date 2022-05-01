@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.dt.ducthuygreen.Utils.JwtUtil;
 import com.dt.ducthuygreen.entities.User;
 import com.dt.ducthuygreen.services.impl.MyUserDetailService;
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IUserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,7 +28,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserService userService;
+    private IUserService IUserService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -50,7 +50,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    User user = userService.findByUsername(username);
+                    User user = IUserService.findByUsername(username);
                     request.setAttribute("user", user);
                 }
             }

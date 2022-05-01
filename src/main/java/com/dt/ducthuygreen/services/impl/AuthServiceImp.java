@@ -1,19 +1,18 @@
 package com.dt.ducthuygreen.services.impl;
 
 import java.io.InvalidObjectException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.login.LoginException;
 
+import com.dt.ducthuygreen.repos.RoleRepository;
+import com.dt.ducthuygreen.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +23,9 @@ import com.dt.ducthuygreen.entities.Role;
 import com.dt.ducthuygreen.entities.User;
 import com.dt.ducthuygreen.exception.DuplicateException;
 import com.dt.ducthuygreen.payload.AuthenticationRequest;
-import com.dt.ducthuygreen.payload.AuthenticationResponse;
 import com.dt.ducthuygreen.services.AuthService;
 import com.dt.ducthuygreen.services.IRoleService;
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IUserService;
 
 @Service
 public class AuthServiceImp implements AuthService {
@@ -41,7 +39,10 @@ public class AuthServiceImp implements AuthService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
+
+    @Autowired
+    private IUserService IUserService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -49,12 +50,15 @@ public class AuthServiceImp implements AuthService {
     @Autowired
     private IRoleService roleService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public Boolean login(AuthenticationRequest request) throws LoginException {
         try {
-            Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getUsername(), request.getPassword()));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             throw new LoginException("Incorrect username or password");
         }
@@ -92,7 +96,7 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public Boolean register(UserDTO userDTO) throws InvalidObjectException {
-        User oldUser = userService.findByUsername(userDTO.getUsername());
+        User oldUser = IUserService.findByUsername(userDTO.getUsername());
         if (oldUser != null) {
             throw new DuplicateException("Username has already exists");
         }
@@ -102,17 +106,26 @@ public class AuthServiceImp implements AuthService {
             throw new InvalidObjectException("Invalid user");
         }
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-        Role role = roleService.getRoleByName("ROLE_MEMBER");
-        user.setRoles(Set.of(role));
+        if (user.getRoles().isEmpty()) {
+            Role role = roleService.getRoleByName("ROLE_MEMBER");
+            user.setRoles(Set.of(role));
+        } else {
+            for (Role role : userDTO.getRoles()) {
+                role = roleRepository.findRoleById(role.getId());
+                user.getRoles().add(role);
+            }
+        }
         user.setStatus(1);
         user.setDeleted(false);
-        userService.save(user);
+        IUserService.save(user);
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         return true;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findUserByEmailAndDeletedFalse(email);
     }
 
 }

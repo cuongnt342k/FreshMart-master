@@ -12,6 +12,7 @@ public class HomeController {
     public String HomePage() {
         return "index";
     }
+
     @GetMapping("403")
     public String accessDeniedPage() {
         return "/403";

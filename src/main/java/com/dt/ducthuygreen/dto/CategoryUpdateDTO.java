@@ -5,11 +5,16 @@ import java.util.Date;
 import com.dt.ducthuygreen.entities.BaseModel;
 
 import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class CategoryUpdateDTO extends BaseModel {
+
+	@NotBlank
 	private String categoryName;
 
     private String description;
@@ -41,8 +46,5 @@ public class CategoryUpdateDTO extends BaseModel {
 			String updatedBy) {
 		super(id, deleted, createdDate, createdBy, updatedDate, updatedBy);
 	}
-
-    
-	
 
 }

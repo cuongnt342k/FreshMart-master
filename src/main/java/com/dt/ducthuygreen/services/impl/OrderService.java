@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.dt.ducthuygreen.entities.Item;
+import com.dt.ducthuygreen.mapper.OrderMapper;
 import com.dt.ducthuygreen.repos.ItemRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.dt.ducthuygreen.exception.NotFoundException;
 import com.dt.ducthuygreen.repos.OrderRepository;
 import com.dt.ducthuygreen.services.ICartService;
 import com.dt.ducthuygreen.services.IOrderService;
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IUserService;
 
 @Service
 @Log4j2
@@ -30,9 +31,15 @@ public class OrderService implements IOrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private UserService userService;
+    private IUserService IUserService;
+
     @Autowired
     private ICartService cartService;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+
     @Autowired
     private ItemRepository itemRepository;
 
@@ -47,6 +54,7 @@ public class OrderService implements IOrderService {
         return orderRepository.findAllByDeletedIsFalse(pageable);
     }
 
+
     @Override
     public Page<Order> getAllOrderByTextSearch(Pageable pageable, String textSearch) {
         return orderRepository.findAllByDeletedIsFalseAndAddressContainsOrDeletedIsFalseAndEmailContainsOrDeletedIsFalseAndPostcodeContainsOrDeletedIsFalseAndFirstNameContainsOrDeletedIsFalseAndLastNameContains(pageable, textSearch, textSearch, textSearch, textSearch, textSearch);
@@ -54,25 +62,25 @@ public class OrderService implements IOrderService {
 
     @Override
     public Order createNewOrder(String userName, OrderDTO orderDTO) {
-        User user = userService.findByUsername(userName);
-        if (user == null) {
-            throw new NotFoundException("Can not find userid");
-        }
         Order order = new Order();
         ConvertObject.convertOrderDTOToOrder(order, orderDTO);
-        order.setUser_id(user.getId());
+        order.setUserName(userName);
 
-        Cart cart = user.getCart();
+        Cart cart = cartService.getCartByUserName(userName);
         List<Item> items = cart.getItems();
         if (items.size() == 0) {
             throw new NotFoundException("Not containt cart, can not create order");
         }
         for (Item item : items) {
-            item.setOrder(order);
-            item.setStatus(false);
+            if (item.getOrder() == null) {
+                item.setOrder(order);
+                item.setStatus(true);
+            }
         }
         order.setDeleted(false);
-        order.setCreatedBy(user.getUsername());
+        order.setCreatedBy(userName);
+        order.setStatus(false);
+        order.setConfirm(0);
         return orderRepository.save(order);
     }
 
@@ -83,10 +91,10 @@ public class OrderService implements IOrderService {
         return orderRepository.save(order);
     }
 
-    @Override
-    public List<Order> getAllOrderByUserId(Long userId) {
-        return orderRepository.findAll().stream().filter(item -> item.getUser_id() == userId).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Order> getAllOrderByUserId(Long userId) {
+//        return orderRepository.findAll().stream().filter(item -> item.getUserId() == userId).collect(Collectors.toList());
+//    }
 
     @Override
     public boolean deleteOrderById(Long orderId) {
@@ -99,6 +107,42 @@ public class OrderService implements IOrderService {
             log.debug(e);
             return false;
         }
+    }
+
+    @Override
+    public Order changeStatus(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()) {
+            order.get().setStatus(!order.get().getStatus());
+            orderRepository.save(order.get());
+        }
+        return order.get();
+    }
+
+    @Override
+    public Order detailOrder(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()){
+            List<Item> items = itemRepository.findItemByOrder(order.get());
+            order.get().setItems(items);
+        }
+        return order.get();
+    }
+
+    @Override
+    public Order cancelOrder(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        order.get().setConfirm(2);
+        orderRepository.save(order.get());
+        return order.get();
+    }
+
+    @Override
+    public Order confirmOrder(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        order.get().setConfirm(3);
+        orderRepository.save(order.get());
+        return order.get();
     }
 
 }

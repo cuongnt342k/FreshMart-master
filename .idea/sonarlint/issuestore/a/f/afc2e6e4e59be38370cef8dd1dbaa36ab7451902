@@ -1,18 +1,0 @@
-
-G
-java:S1068",Remove this unused "userName" private field.(Û”øÚøÿÿÿÿ
-G
-java:S1068",Remove this unused "password" private field.(œãë­úÿÿÿÿ
-D
-java:S1068
-")Remove this unused "email" private field.(ª«Õìùÿÿÿÿ
-B
-java:S1068",Remove this unused "fullName" private field.(—ÿø
-J
-java:S1068"/Remove this unused "description" private field.(ÇÓæâıÿÿÿÿ
-@
-java:S1068"*Remove this unused "status" private field.(‚Ÿü
-?
-java:S1068")Remove this unused "roles" private field.(ã«ü
-H
-java:S1068"3Remove this unused "passwordConfirm" private field.(Ë­°m

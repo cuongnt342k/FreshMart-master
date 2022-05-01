@@ -1,7 +1,7 @@
 package com.dt.ducthuygreen.controller;
 
 import com.dt.ducthuygreen.dto.ProductDTO;
-import com.dt.ducthuygreen.services.ProductServices;
+import com.dt.ducthuygreen.services.IProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,14 @@ import javax.validation.Valid;
 @RequestMapping("/api/products")
 public class ProductControllerRest {
     @Autowired
-    private ProductServices productServices;
+    private IProductServices IProductServices;
 
     @GetMapping
     @ResponseBody
     public ResponseEntity<?> getAllProduct(Pageable pageable, @RequestParam(required = false) String textSearch) {
         if (textSearch != null)
-            return ResponseEntity.status(200).body(productServices.getAllProductBySearch(pageable, textSearch));
-        return ResponseEntity.status(200).body(productServices.getAllProduct(pageable));
+            return ResponseEntity.status(200).body(IProductServices.getAllProductBySearch(pageable, textSearch));
+        return ResponseEntity.status(200).body(IProductServices.getAllProduct(pageable));
     }
 
 //    @GetMapping("/{id}")
@@ -35,9 +35,9 @@ public class ProductControllerRest {
     @ResponseBody
     public ResponseEntity<?> getProductByCateId(Pageable pageable, @RequestParam(required = false) Long cateID) {
         if (cateID == null) {
-            return ResponseEntity.status(200).body(productServices.getAllProduct(pageable));
+            return ResponseEntity.status(200).body(IProductServices.getAllProduct(pageable));
         }
-        return ResponseEntity.status(200).body(productServices.getAllProductByCateID(pageable, cateID));
+        return ResponseEntity.status(200).body(IProductServices.getAllProductByCateID(pageable, cateID));
     }
 
     @PostMapping("/addProduct")
@@ -47,7 +47,7 @@ public class ProductControllerRest {
             @Valid @ModelAttribute ProductDTO productDTO,
             @RequestParam(name = "multipartFile", required = false) MultipartFile image
     ) {
-        return ResponseEntity.status(201).body(productServices.create(productDTO, cateId, image));
+        return ResponseEntity.status(201).body(IProductServices.create(productDTO, cateId, image));
     }
 
     @PostMapping("/{productId}/image")
@@ -56,7 +56,7 @@ public class ProductControllerRest {
             @PathVariable("productId") Long productId,
             @RequestParam(name = "image", required = false) MultipartFile image
     ) {
-        return ResponseEntity.status(201).body(productServices.changeIamge(productId, image));
+        return ResponseEntity.status(201).body(IProductServices.changeIamge(productId, image));
     }
 
     @PutMapping("/editProduct")
@@ -67,13 +67,13 @@ public class ProductControllerRest {
             @RequestParam(name = "multipartFile", required = false) MultipartFile image
     ) {
         return ResponseEntity.status(200)
-                .body(productServices.editProductById(productDTO, cateId, image));
+                .body(IProductServices.editProductById(productDTO, cateId, image));
     }
 
     @DeleteMapping("/deleteProduct/{id}")
     @ResponseBody
     public String deleteProductById(@PathVariable("id") Long id) {
-        if (productServices.deleteProductById(id)) return "Successfully";
+        if (IProductServices.deleteProductById(id)) return "Successfully";
         return "Error";
     }
 

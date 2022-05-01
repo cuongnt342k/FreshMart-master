@@ -4,11 +4,13 @@ import com.dt.ducthuygreen.Utils.ConvertObject;
 import com.dt.ducthuygreen.dto.ItemDTO;
 import com.dt.ducthuygreen.entities.*;
 import com.dt.ducthuygreen.exception.NotFoundException;
+import com.dt.ducthuygreen.repos.CartRepository;
 import com.dt.ducthuygreen.repos.ItemRepository;
 import com.dt.ducthuygreen.repos.OrderRepository;
+import com.dt.ducthuygreen.services.ICartService;
 import com.dt.ducthuygreen.services.IItemService;
-import com.dt.ducthuygreen.services.ProductServices;
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IProductServices;
+import com.dt.ducthuygreen.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,15 @@ public class ItemServiceImpl implements IItemService {
 
     @Autowired
     private ItemRepository itemRepository;
+
     @Autowired
-    private ProductServices productService;
+    private IProductServices productService;
+
     @Autowired
-    private OrderRepository orderRepository;
+    private CartRepository cartRepository;
+
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Override
     public Item getItemById(Long id) {
@@ -41,52 +46,34 @@ public class ItemServiceImpl implements IItemService {
 
     @Override
     public List<Item> getItemByUserName(String userName) {
-        return itemRepository.findItemByCartAndStatusIsFalseAndDeletedIsFalse(userService.findByUsername(userName).getCart());
+        return itemRepository.findItemByCartAndStatusIsFalseAndDeletedIsFalse(cartRepository.findCartByUserName(userName));
     }
 
     @Override
-    public Item creatNewItem(ItemDTO itemDTO, Long productId, String userId) {
+    public Item creatNewItem(ItemDTO itemDTO, Long productId, String username) {
         Product product = productService.getProductById(productId);
         if (product == null) {
             throw new NotFoundException("ProductId is not containt");
         }
-
-        User user = userService.findByUsername(userId);
-
-        Cart cart = user.getCart();
-
-//        Order order = orderRepository.findTop1ByStatusIsFalseAndCart_id(cart.getId());
-//        if (order == null) {
-//            order = new Order();
-//            order.setUser_id(user.getId());
-//            String string = user.getFullName();
-//            String[] parts = string.split(" ");
-//            order.setFirstName(parts[0]);
-//            order.setLastName(parts[0]);
-//            order.setEmail(user.getEmail());
-//        }
-
-        if (user == null) {
-            throw new NotFoundException("User id is not containt");
-        }
-        //cart k có thì tạo
+        Cart cart = cartRepository.findCartByUserName(username);
         if (cart == null) {
             cart = new Cart();
-            cart.setCreatedBy(user.getFullName());
+            cart.setCreatedBy(username);
             cart.setItems(new ArrayList<Item>());
             cart.setQuantity(1L);
-            cart.setCreatedBy(user.getUsername());
-
+            cart.setCreatedBy(username);
+            cart.setUserName(username);
+            cartRepository.save(cart);
         } else {
             cart.setQuantity(cart.getQuantity() + 1L);
-            cart.setUpdatedBy(user.getUsername());
+            cart.setUpdatedBy(username);
         }
         Item item = itemRepository.findItemByCartAndProductAndStatusIsFalseAndDeletedIsFalse(cart, product);
         if (item != null) {
             item.setQuantity(item.getQuantity() + itemDTO.getQuantity());
             item.setPrice(product.getPrice() * item.getQuantity());
             item.setStatus(false);
-            item.setUpdatedBy(user.getUsername());
+            item.setUpdatedBy(username);
         } else {
             item = ConvertObject.convertItemDTOTOItem(itemDTO);
             item.setProduct(product);
@@ -95,25 +82,76 @@ public class ItemServiceImpl implements IItemService {
             item.setDeleted(false);
             item.setStatus(false);
             item.setPrice(product.getPrice() * item.getQuantity());
-
-            item.setCreatedBy(user.getUsername());
+            item.setCreatedBy(username);
         }
-//        Item item = ConvertObject.convertItemDTOTOItem(itemDTO);
 
         List<Item> items = cart.getItems();
         items.add(item);
         Item newItem = itemRepository.save(item);
         itemRepository.save(newItem);
+        if (product.getQuantity() > 0){
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+            productService.save(product);
+        }
+        return newItem;
+    }
+
+    @Override
+    public Item creatNewItemWithAccountFaceBook(ItemDTO itemDTO, Long productId, String username) {
+        Product product = productService.getProductById(productId);
+        if (product == null) {
+            throw new NotFoundException("ProductId is not containt");
+        }
+        Cart cart = cartRepository.findCartByUserName(username);
+        if (cart == null) {
+            cart = new Cart();
+            cart.setCreatedBy(username);
+            cart.setItems(new ArrayList<Item>());
+            cart.setQuantity(1L);
+            cart.setCreatedBy(username);
+            cartRepository.save(cart);
+        } else {
+            cart.setQuantity(cart.getQuantity() + 1L);
+            cart.setUpdatedBy(username);
+        }
+        Item item = itemRepository.findItemByCartAndProductAndStatusIsFalseAndDeletedIsFalse(cart, product);
+        if (item != null) {
+            item.setQuantity(item.getQuantity() + itemDTO.getQuantity());
+            item.setPrice(product.getPrice() * item.getQuantity());
+            item.setStatus(false);
+            item.setUpdatedBy(username);
+        } else {
+            item = ConvertObject.convertItemDTOTOItem(itemDTO);
+            item.setProduct(product);
+            item.setCart(cart);
+            item.setOrder(null);
+            item.setDeleted(false);
+            item.setStatus(false);
+            item.setPrice(product.getPrice() * item.getQuantity());
+            item.setCreatedBy(username);
+        }
+
+        List<Item> items = cart.getItems();
+        items.add(item);
+        Item newItem = itemRepository.save(item);
+        itemRepository.save(newItem);
+        if (product.getQuantity() > 0){
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+            productService.save(product);
+        }
         return newItem;
     }
 
     @Override
     public void deleteItemById(Long id) {
         try {
-           Item item = itemRepository.findItemById(id);
+            Item item = itemRepository.findItemById(id);
             item.setDeleted(true);
-           itemRepository.save(item);
-        }catch (Exception e){
+            itemRepository.save(item);
+            Cart cart = cartRepository.getById(item.getCart().getId());
+            cart.setQuantity(cart.getQuantity() - item.getQuantity());
+            cartRepository.save(cart);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

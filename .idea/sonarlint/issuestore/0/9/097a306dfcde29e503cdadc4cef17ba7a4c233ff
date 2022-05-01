@@ -1,11 +1,11 @@
 
-H
-java:S1452"&Remove usage of generic wildcard type.(µåÈØûÿÿÿÿ8Øš® ó/
-H
-java:S1452"&Remove usage of generic wildcard type.(­€ÿ×úÿÿÿÿ8Ûš® ó/
-H
-java:S1452""&Remove usage of generic wildcard type.(Ò¯²Íþÿÿÿÿ8Ýš® ó/
-H
-java:S1452("&Remove usage of generic wildcard type.(¥¼Ô»øÿÿÿÿ8Þš® ó/
-k
-java:S1128"NRemove this unused import 'com.dt.ducthuygreen.services.impl.CartServiceImpl'.(µíƒð8«ð‘¯ó/
+A
+java:S1452"&Remove usage of generic wildcard type.(µåÈØûÿÿÿÿ
+A
+java:S1452"&Remove usage of generic wildcard type.(­€ÿ×úÿÿÿÿ
+A
+java:S1452""&Remove usage of generic wildcard type.(Ò¯²Íþÿÿÿÿ
+A
+java:S1452("&Remove usage of generic wildcard type.(¥¼Ô»øÿÿÿÿ
+d
+java:S1128"NRemove this unused import 'com.dt.ducthuygreen.services.impl.CartServiceImpl'.(µíƒð

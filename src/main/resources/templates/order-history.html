@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<!-- Mirrored from demo1.cloodo.com/html/freshmart/product-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Feb 2022 15:54:24 GMT -->
+<head>
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FreshMart - Organic, Fresh Food, Farm Store HTML Template</title>
+
+    <meta name="keywords" content="Organic, Fresh Food, Farm Store">
+    <meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
+    <meta name="author" content="tivatheme">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,700" rel="stylesheet">
+
+    <th:block th:insert="~{/fragments/css}"></th:block>
+</head>
+
+<body class="home home-1">
+<div id="all">
+    <!-- Header -->
+    <th:block th:insert="~{/fragments/header}"></th:block>
+
+
+    <!-- Main Content -->
+    <div id="content" class="site-content">
+        <!-- Breadcrumb -->
+        <div id="breadcrumb">
+            <div class="container">
+                <h2 class="title">Lịch sử đơn hàng</h2>
+
+                <ul class="breadcrumb">
+                    <li><a href="#" title="Home">Trang chủ</a></li>
+                    <li><span>Lịch sử đơn hàng</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-cart">
+                <div class="table-responsive">
+                    <table class="cart-summary table table-bordered" id="order-table">
+                        <thead>
+                        <tr>
+                            <th class="width-80 text-center">Mã đơn hàng</th>
+                            <th class="width-100 text-center">Số lượng</th>
+                            <th class="width-100 text-center">Tổng</th>
+                            <th class="width-100 text-center">Detail</th>
+                            <th class="width-100 text-center">Hủy đơn</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                    <ul class="pagination justify-content-center" style="margin:20px 0; cursor: pointer;">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết đơn hàng</h5>
+                </div>
+                <div class="modal-body" id="order-detail">
+                    <form id="form-detail"  class="form-horizontal">
+
+                    </form>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseThree">
+                                    Đơn hàng
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
+                            <div class="panel-body">
+                                <table class="cart-summary table table-bordered" id="table-check-out">
+                                    <thead>
+                                    <tr>
+                                        <th class="width-80 text-center">Ảnh mô tả</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th class="width-100 text-center">Đơn giá</th>
+                                        <th class="width-100 text-center">Số lượng</th>
+                                        <th class="width-100 text-center">Tổng</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+
+                                <table class="table cart-total" id="table-cart-total">
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <th:block th:insert="~{/fragments/footer}"></th:block>
+</div>
+<th:block th:insert="~{/fragments/script}"></th:block>
+<script th:src="@{/js/order-history.js}"></script>
+</body>
+
+<!-- Mirrored from demo1.cloodo.com/html/freshmart/product-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Feb 2022 15:54:31 GMT -->
+</html>

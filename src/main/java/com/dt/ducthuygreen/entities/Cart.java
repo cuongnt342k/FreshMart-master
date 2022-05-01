@@ -27,9 +27,11 @@ public class Cart extends BaseModel {
     @Column(name = "quantity")
     private Long quantity;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String userName;
+
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Item> items = new ArrayList<>();
-
 
 }

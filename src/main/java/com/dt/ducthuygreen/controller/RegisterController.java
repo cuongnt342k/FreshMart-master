@@ -24,6 +24,9 @@ public class RegisterController {
     @PostMapping
     @ResponseBody
     public String register(@Valid @RequestBody UserDTO userDTO) throws InvalidObjectException {
+        if(authService.findByEmail(userDTO.getEmail()) != null){
+            return "Email đã tồn tại.";
+        }
         try {
             authService.register(userDTO);
         }catch (DuplicateException e){

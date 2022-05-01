@@ -4,7 +4,7 @@ $(document).ready(function () {
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/items/" + userName,
+            type: "GET", url: "/api/items/" + userName,
             dataType: 'json',
             success: function (response) {
                 $('#cart-table tbody').empty();
@@ -50,8 +50,8 @@ $(document).ready(function () {
                 });
                 var tfoot = ` <tr class="cart-total">
                                 <td rowspan="3" colspan="3"></td>
-                                <td colspan="2" class="text-right">Total products</td>
-                                <td colspan="1" class="text-center">$${total}</td>
+                                <td colspan="2" class="text-right">Tổng</td>
+                                <td colspan="1" class="text-center">${total} VND</td>
                             </tr>`
                 $('#cart-table tfoot').append(tfoot);
                 $('.remove').on('click', function (event) {
@@ -69,7 +69,7 @@ $(document).ready(function () {
         var id = target.querySelector('input');
         console.log(id.value);
         $.ajax({
-            type: "DELETE", url: "http://localhost:8080/api/items/remove/" + id.value,
+            type: "DELETE", url: "/api/items/remove/" + id.value,
             dataType: 'text',
             success: function (response) {
                 fetchCart();

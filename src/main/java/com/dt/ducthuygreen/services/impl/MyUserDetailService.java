@@ -1,5 +1,6 @@
 package com.dt.ducthuygreen.services.impl;
 
+import com.dt.ducthuygreen.dto.MyUserDetail;
 import com.dt.ducthuygreen.entities.User;
 import com.dt.ducthuygreen.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 @Service
@@ -23,7 +23,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("Not found user by username: " + username);
         }
 
@@ -32,6 +32,6 @@ public class MyUserDetailService implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority(item.getRoleName()));
         });
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+        return new MyUserDetail(user.getUsername(), user.getPassword(), grantedAuthorities, user);
     }
 }

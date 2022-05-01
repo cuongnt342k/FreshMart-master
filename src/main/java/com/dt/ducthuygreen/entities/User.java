@@ -10,7 +10,9 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -21,11 +23,11 @@ import java.util.Set;
 @Table(name = "account")
 public class User extends BaseModel implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4411866133516874486L;
+     *
+     */
+    private static final long serialVersionUID = -4411866133516874486L;
 
-	@Column(name = "username", unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -43,20 +45,26 @@ public class User extends BaseModel implements Serializable {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     Cart cart = new Cart();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", 
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
+
     @Transient
     private String passwordConfirm;
-
 
 }

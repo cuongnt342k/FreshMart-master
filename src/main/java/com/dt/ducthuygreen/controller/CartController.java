@@ -14,10 +14,5 @@ public class CartController {
 
         return "cart-management";
     }
-    @PostMapping("/addToCart")
-    public String addToCart(){
-
-        return null;
-    }
 
 }

@@ -4,7 +4,7 @@ $(document).ready(function () {
     function fetchProducts(startPage) {
         var textSearch = $('#searchProduct').val();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/products?textSearch=" + textSearch,
+            type: "GET", url: "/api/products?textSearch=" + textSearch,
             data: {
                 page: startPage, size: 10
             },
@@ -20,7 +20,6 @@ $(document).ready(function () {
                         '<td>' + product.price + '</td>' +
                         '<td>' + product.sold + '</td>' +
                         '<td>' + product.quantity + '</td>' +
-                        '<td>' + product.description + '</td>' +
                         '<td>' + product.evaluate + '</td>' +
                         `<td>
                             <a  id="${product.id}" href="/admin/product/editProduct/${product.id}" "><i class="align-middle me-2 fas fa-fw fa-pencil-alt"></i>Edit</a>
@@ -145,7 +144,7 @@ $(document).ready(function () {
         function (value) {
             return Number(value) > 0;
         }, 'Enter a positive number.');
-    $("#add-movie-form").validate({
+    $("#add-product-form").validate({
         debug: true,
         rules: {
             image: {
@@ -169,7 +168,7 @@ $(document).ready(function () {
                 data.append('multipartFile', null);
             }
             $.ajax({
-                url: "http://localhost:8080/api/products/editProduct",
+                url: "/api/products/editProduct",
                 type: 'PUT',
                 processData: false,
                 contentType: false,
@@ -240,7 +239,7 @@ $(document).ready(function () {
         if ($('#add-product-form').valid()) {
             var data = getData();
             $.ajax({
-                url: "http://localhost:8080/api/products/addProduct",
+                url: "/api/products/addProduct",
                 type: 'POST',
                 processData: false,
                 contentType: false,
@@ -295,7 +294,7 @@ $(document).ready(function () {
         var idDelete = $(this).val();
         $.ajax({
             type: 'DELETE',
-            url: 'http://localhost:8080/api/products/deleteProduct/' + idDelete,
+            url: '/api/products/deleteProduct/' + idDelete,
             dataType: 'text',
             cache: false,
             success: function (result) {

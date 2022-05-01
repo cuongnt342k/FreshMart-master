@@ -13,8 +13,25 @@ $(document).ready(function () {
                 $('#order-table tbody').empty();
                 $.each(response.content, (i, order) => {
                     let status;
-                    if (order.status == 0) status = '<span style="color: #8e0615"><strong></strong>Delivering</span>'
-                    else if (order.status == 1) status = '<span style="color: #1b8a4d"><strong></strong>Success</span>'
+                    if (order.status == 0) {
+                        status = ` <div class="form-check form-switch"> 
+                                          <input class="form-check-input" type="checkbox" id="${order.id}" > 
+                                          <span style="color: #8e0615"><strong></strong>Delivering</span>
+                                       </div>`
+                    } else {
+                        status = ` <div class="form-check form-switch">
+                                          <input class="form-check-input" type="checkbox" id="${order.id}" checked>
+                                          <span style="color: #1b8a4d"><strong></strong>Success</span>
+                                       </div>`
+                    }
+                    var confirm;
+                    if (order.confirm == 0) {
+                        confirm = `<button id="${order.id}" type="button" class="btn btn-primary btn-cancel">Confirm</button>`;
+                    } else if (order.confirm == 2) {
+                        confirm = `<button id="${order.id}" type="button" class="btn btn-danger btn-cancel" disabled>Canceled</button>`;
+                    } else {
+                        confirm = `<button id="${order.id}" type="button" class="btn btn-success btn-cancel" disabled>Confirmed</button>`;
+                    }
                     let row = '<tr>' +
                         '<td>' + i + '</td>' +
                         '<td>' + order.firstName + " " + order.lastName + '</td>' +
@@ -24,6 +41,7 @@ $(document).ready(function () {
                         '<td>' + order.totalPrice + '</td>' +
                         '<td>' + order.totalQuantity + '</td>' +
                         '<td>' + status + '</td>' +
+                        '<td>' + confirm + '</td>' +
                         `<td>
                             <a  id="${order.id}" href="/admin/orders/editOrder/${order.id}" "><i class="align-middle me-2 fas fa-fw fa-pencil-alt"></i>Edit</a>
                           </td>` +
@@ -42,7 +60,43 @@ $(document).ready(function () {
                 alert("ERROR: ", e);
                 console.log("ERROR: ", e);
             }
-        });
+        }).done(function (){
+            $('.btn-cancel').click(function (event) {
+                console.log("cancel");
+                var id = event.target.id;
+                $.ajax({
+                    type: "PUT", url: "/api/order-items/confirmOrder/" + id,
+                    dataType: 'json',
+                    success: function (response) {
+                        fetchOrders(0);
+                    }, error: function (e) {
+                        alert("ERROR: ", e);
+                        console.log("ERROR: ", e);
+                    }
+                })
+            })
+            $('.form-check-input').click(function (event) {
+                var id = event.target.id;
+                $.ajax({
+                    type: "PUT", url: "/api/order-items/changeStatus/"+ id,
+                    dataType: 'json',
+                    success: function (response) {
+                        let status = $(event.target).parent();
+                        status.find('span').remove();
+                        var span;
+                        if(response.status == 1){
+                             span = `<span style="color: #1b8a4d"><strong></strong>Success</span>`
+                        }else {
+                             span = `<span style="color: #8e0615"><strong></strong>Delivering</span>`
+                        }
+                        status.append(span)
+                    }, error: function (e) {
+                        alert("ERROR: ", e);
+                        console.log("ERROR: ", e);
+                    }
+                })
+            })
+        });;
     }
 
     function buildPagination(response) {
@@ -158,7 +212,7 @@ $(document).ready(function () {
         if ($('#edit-order-form').valid()) {
             var data = getData();
             $.ajax({
-                url: "http://localhost:8080/api/order-items/editOrder",
+                url: "/api/order-items/editOrder",
                 type: 'PUT',
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
@@ -220,7 +274,7 @@ $(document).ready(function () {
     //     if ($('#add-product-form').valid()) {
     //         var data = getData();
     //         $.ajax({
-    //             url: "http://localhost:8080/api/products/addProduct",
+    //             url: "/api/products/addProduct",
     //             type: 'POST',
     //             processData: false,
     //             contentType: false,

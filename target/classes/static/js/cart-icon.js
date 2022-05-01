@@ -2,7 +2,7 @@ $(document).ready(function () {
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/items/" + userName,
+            type: "GET", url: "/api/items/" + userName,
             dataType: 'json',
             success: function (response) {
                 $('#item-table tbody').empty();
@@ -19,7 +19,7 @@ $(document).ready(function () {
                                                 <a href="product-detail-left-sidebar.html">${item.product.productName}</a>
                                             </div>
                                             <div>
-                                                ${item.quantity} x <span class="product-price">$${item.product.price}</span>
+                                                ${item.quantity} x <span class="product-price">${item.product.price} VND</span>
                                             </div>
                                         </td>
                                         <td class="action">
@@ -32,16 +32,15 @@ $(document).ready(function () {
                     $('#item-table tbody').append(row);
                 });
                 var totalAndBtn = ` <tr class="total">
-                                        <td>Total:</td>
+                                        <td>Tổng:</td>
                                         <td colspan="2">${total}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
                                             <div class="cart-button">
-                                                <a class="btn btn-primary" href="/cart/" title="View Cart">View
-                                                    Cart</a>
+                                                <a class="btn btn-primary" href="/cart/" title="View Cart">Xem giỏ hàng</a>
                                                 <a class="btn btn-primary" href="/check-out/"
-                                                   title="Checkout">Checkout</a>
+                                                   title="Checkout">Đặt hàng</a>
                                             </div>
                                         </td>`;
                 $('#item-table tbody').append(totalAndBtn);
@@ -60,7 +59,7 @@ $(document).ready(function () {
         var id = target.querySelector('input');
         console.log(id.value);
         $.ajax({
-            type: "DELETE", url: "http://localhost:8080/api/items/remove/" + id.value,
+            type: "DELETE", url: "/api/items/remove/" + id.value,
             dataType: 'text',
             success: function (response) {
                 fetchCart();
@@ -74,7 +73,7 @@ $(document).ready(function () {
     function fetchCategory() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/categories",
+            url: "/api/categories",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             cache: false,

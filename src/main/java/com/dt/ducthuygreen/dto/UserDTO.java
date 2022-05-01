@@ -37,14 +37,10 @@ public class UserDTO extends BaseModel {
 	@NotNull
     private String fullName;
 
-	@NotBlank
-	@NotNull
     private String description;
 
-	@NotEmpty
 	private String confirmPassword;
 
-	@NotNull
     private Integer status;
 
     private Set<Role> roles;

@@ -1,6 +1,7 @@
 package com.dt.ducthuygreen.repos;
 
 import com.dt.ducthuygreen.entities.Cart;
+import com.dt.ducthuygreen.entities.Order;
 import com.dt.ducthuygreen.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Item findItemByCartAndProductAndStatusIsFalseAndDeletedIsFalse(Cart cart, Product product);
 
     List<Item> findItemByCartAndStatusIsFalseAndDeletedIsFalse(Cart cart);
+
+    List<Item> findItemByOrder(Order order);
 
     void deleteById(Long id);
 

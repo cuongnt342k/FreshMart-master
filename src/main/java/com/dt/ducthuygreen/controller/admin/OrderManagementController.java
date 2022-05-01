@@ -23,7 +23,7 @@ public class OrderManagementController {
     OrderService orderService;
 
     @GetMapping
-    public String listProductPage() {
+    public String listOrderPage() {
         return "/management/list-order";
     }
 

@@ -1,33 +1,32 @@
 package com.dt.ducthuygreen.controller;
 
-import java.util.List;
-
+import com.dt.ducthuygreen.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IUserService;
 
 @RestController
 @RequestMapping("/api/users")
 //@SecurityRequirement(name = "Authorization")
 public class UserController {
 	@Autowired
-	private UserService userService;
+	private IUserService IUserService;
 	
 	@GetMapping
-	public ResponseEntity<?> getAllUser(){
-		
-		return ResponseEntity.status(200).body(userService.getAllUsers());
+	public ResponseEntity<?> getAllUser(Pageable pageable, @RequestParam(required = false) String textSearch){
+		if (textSearch != null){
+			return ResponseEntity.status(200).body(IUserService.getAllByText(pageable, textSearch));
+		}
+		return ResponseEntity.status(200).body(IUserService.getAll(pageable));
 	}
 	
-//	@PostMapping
-//	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
-//		
-//		
-//	}
+	@PostMapping
+	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+		return ResponseEntity.status(200).body(IUserService.getAllUsers());
+	}
 
 
 

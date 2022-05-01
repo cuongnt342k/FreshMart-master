@@ -2,8 +2,8 @@ package com.dt.ducthuygreen.controller.admin;
 
 import com.dt.ducthuygreen.entities.Category;
 import com.dt.ducthuygreen.entities.Product;
-import com.dt.ducthuygreen.services.CategoryService;
-import com.dt.ducthuygreen.services.ProductServices;
+import com.dt.ducthuygreen.services.ICategoryService;
+import com.dt.ducthuygreen.services.IProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,9 +20,9 @@ import java.util.List;
 public class ProductManagementController {
 
     @Autowired
-    ProductServices productServices;
+    IProductServices IProductServices;
     @Autowired
-    CategoryService categoryService;
+    ICategoryService ICategoryService;
 
     @GetMapping
     public String listProductPage() {
@@ -31,15 +31,15 @@ public class ProductManagementController {
 
     @GetMapping("/addProduct")
     public String addProductPage(Model model) {
-        List<Category> categoryList = categoryService.findAll();
+        List<Category> categoryList = ICategoryService.findAll();
         model.addAttribute("categories", categoryList);
         return "/management/add-product-form";
     }
 
     @GetMapping("/editProduct/{id}")
     public String editProductPage(Model model, @PathVariable("id") Long productId) {
-        List<Category> categoryList = categoryService.findAll();
-        Product product = productServices.getProductById(productId);
+        List<Category> categoryList = ICategoryService.findAll();
+        Product product = IProductServices.getProductById(productId);
         model.addAttribute("categories", categoryList);
         model.addAttribute("product", product);
         return "/management/edit-product-form";

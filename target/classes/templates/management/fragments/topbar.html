@@ -9,7 +9,7 @@
 	<div class="d-none d-sm-inline-block">
 		<div class="input-group input-group-navbar">
 			<input type="text" class="form-control"
-				placeholder="Search movie" aria-label="Search" id="search-movie">
+				placeholder="Search" aria-label="Search" id="search-movie">
 			<a class="btn" type="button">
 				<i class="align-middle" data-feather="search"></i>
 			</a>
@@ -26,12 +26,12 @@
 				</a> <a class="nav-link dropdown-toggle d-none d-sm-inline-block"
 					href="#" data-bs-toggle="dropdown"> <img
 						th:src="@{/management/img/avatars/avatar.jpg}"
-						class="avatar img-fluid rounded-circle me-1"/> <span class="text-dark" sec:authentication="name"></span>
+						class="avatar img-fluid rounded-circle me-1"/> <span class="text-dark" sec:authentication="principal.fullName"></span>
 				</a>
 					<div class="dropdown-menu dropdown-menu-end">
 						<a class="dropdown-item" href="pages-profile.html"><i
 							class="align-middle me-1" data-feather="user"></i> Profile</a> <a
-							class="dropdown-item" href="/logout">Sign out</a>
+							class="dropdown-item" href="/logout">Đăng Xuất</a>
 					</div></li>
 			</ul>
 	</div>

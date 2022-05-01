@@ -1,5 +1,6 @@
 package com.dt.ducthuygreen.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,9 @@ public class Order extends BaseModel implements Serializable {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "confirm")
+    private Integer confirm;
+
     @Column(name = "address")
     private String address;
 
@@ -48,11 +52,11 @@ public class Order extends BaseModel implements Serializable {
     @Column(name = "total_quantity")
     private Long totalQuantity;
 
-    @Column(name = "user_id")
-    private Long user_id;
+    @Column(name = "user_name")
+    private String userName;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonIgnoreProperties(value={"hibernateLazyInitializer"})
     private List<Item> items = new ArrayList<>();
 
 

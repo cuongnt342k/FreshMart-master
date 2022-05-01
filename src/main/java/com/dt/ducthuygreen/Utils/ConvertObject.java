@@ -50,9 +50,6 @@ public class ConvertObject {
 		if(productDTO.getDescription()!=null)
 		product.setDescription(productDTO.getDescription());
 		
-		if(productDTO.getEvaluate()!=null)
-		product.setEvaluate(productDTO.getEvaluate());
-		
 		if(productDTO.getQuantity()!=null)
 		product.setQuantity(productDTO.getQuantity());
 		

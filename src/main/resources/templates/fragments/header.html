@@ -15,10 +15,10 @@
                 <div class="col-md-7 col-sm-7 col-xs-12">
                     <div class="topbar-left d-flex">
                         <div class="email">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>Email: tivatheme@gmail.com
+                            <i class="fa fa-envelope" aria-hidden="true"></i>Email: cuongnt342k@gmail.com
                         </div>
                         <div class="skype">
-                            <i class="fa fa-skype" aria-hidden="true"></i>Skype: tivatheme
+                            <i class="fa fa-skype" aria-hidden="true"></i>Skype: cuongnt342k
                         </div>
                     </div>
                 </div>
@@ -28,10 +28,10 @@
                     <div class="topbar-right d-flex justify-content-end">
                         <!-- My Account -->
                         <div class="dropdown account">
-                            <div class="dropdown-toggle" data-toggle="dropdown" sec:authorize="isAuthenticated()"
-                                 sec:authentication="name"></div>
+                            <div class="dropdown-toggle" data-toggle="dropdown" sec:authorize="isAuthenticated()"><span
+                                    th:text="${#authentication.getPrincipal().getFullName()}"></span></div>
                             <div class="dropdown-toggle" data-toggle="dropdown" sec:authorize="!isAuthenticated()">
-                                My Account
+                                Tài Khoản
                             </div>
                             <div class="dropdown-menu">
                                 <!--                                <div class="item">-->
@@ -41,17 +41,22 @@
 
                                 <div class="item" sec:authorize="!isAuthenticated()">
                                     <a th:href="@{/login}" title="Log in to your customer account"><i
-                                            class="fa fa-sign-in"></i>Login</a>
+                                            class="fa fa-sign-in"></i>Đăng Nhập</a>
                                 </div>
                                 <div class="item" sec:authorize="hasAuthority('ROLE_ADMIN')">
-                                    <a th:href="@{/admin/home}" title="Register Account"><i class="fa fa-user"></i>Management</a>
+                                    <a th:href="@{/admin/home}" title="Register Account"><i class="fa fa-user"></i>Quản
+                                        Lý</a>
                                 </div>
                                 <div class="item" sec:authorize="!isAuthenticated()">
-                                    <a th:href="@{/register}" title="Register Account"><i class="fa fa-user"></i>Register</a>
+                                    <a th:href="@{/register}" title="Register Account"><i class="fa fa-user"></i>Đăng Ký</a>
+                                </div>
+                                <div class="item" sec:authorize="isAuthenticated()">
+                                    <a th:href="@{/check-out/history}" title="Logout"><i
+                                            class="fa fa-user"></i>Order history</a>
                                 </div>
                                 <div class="item" sec:authorize="isAuthenticated()">
                                     <a th:href="@{/logout}" title="Logout"><i
-                                            class="fa fa-user"></i>Logout</a>
+                                            class="fa fa-user"></i>Đăng Xuất</a>
                                 </div>
                                 <!--                                <div class="item">-->
                                 <!--                                    <a href="#" title="My Wishlists"><i class="fa fa-heart"></i>My Wishlists</a>-->
@@ -60,39 +65,39 @@
                         </div>
 
                         <!-- Language -->
-<!--                        <div class="dropdown language">-->
-<!--                            <div class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <img src="img/language-en.jpg" alt="Language English">-->
-<!--                            </div>-->
-<!--                            <div class="dropdown-menu">-->
-<!--                                <div class="item">-->
-<!--                                    <a href="#" title="Language English"><img th:src="@{img/language-en.jpg}"-->
-<!--                                                                              alt="Language English"> English</a>-->
-<!--                                </div>-->
-<!--                                <div class="item">-->
-<!--                                    <a href="#" title="Language French"><img th:src="@{img/language-fr.jpg}"-->
-<!--                                                                             alt="Language French"> French</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="dropdown language">-->
+                        <!--                            <div class="dropdown-toggle" data-toggle="dropdown">-->
+                        <!--                                <img src="img/language-en.jpg" alt="Language English">-->
+                        <!--                            </div>-->
+                        <!--                            <div class="dropdown-menu">-->
+                        <!--                                <div class="item">-->
+                        <!--                                    <a href="#" title="Language English"><img th:src="@{img/language-en.jpg}"-->
+                        <!--                                                                              alt="Language English"> English</a>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="item">-->
+                        <!--                                    <a href="#" title="Language French"><img th:src="@{img/language-fr.jpg}"-->
+                        <!--                                                                             alt="Language French"> French</a>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
 
                         <!-- Currency -->
-<!--                        <div class="dropdown currency">-->
-<!--                            <div class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                                USD-->
-<!--                            </div>-->
-<!--                            <div class="dropdown-menu">-->
-<!--                                <div class="item">-->
-<!--                                    <a href="#" title="USD">USD</a>-->
-<!--                                </div>-->
-<!--                                <div class="item">-->
-<!--                                    <a href="#" title="EUR">EUR</a>-->
-<!--                                </div>-->
-<!--                                <div class="item">-->
-<!--                                    <a href="#" title="GBP">GBP</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="dropdown currency">-->
+                        <!--                            <div class="dropdown-toggle" data-toggle="dropdown">-->
+                        <!--                                USD-->
+                        <!--                            </div>-->
+                        <!--                            <div class="dropdown-menu">-->
+                        <!--                                <div class="item">-->
+                        <!--                                    <a href="#" title="USD">USD</a>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="item">-->
+                        <!--                                    <a href="#" title="EUR">EUR</a>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="item">-->
+                        <!--                                    <a href="#" title="GBP">GBP</a>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -146,21 +151,21 @@
                             <div class="cart-content">
                                 <table id="item-table">
                                     <tbody>
-<!--                                    <tr class="total">-->
-<!--                                        <td>Total:</td>-->
-<!--                                        <td colspan="2">$92.96</td>-->
-<!--                                    </tr>-->
+                                    <!--                                    <tr class="total">-->
+                                    <!--                                        <td>Total:</td>-->
+                                    <!--                                        <td colspan="2">$92.96</td>-->
+                                    <!--                                    </tr>-->
 
-<!--                                    <tr>-->
-<!--                                        <td colspan="3">-->
-<!--                                            <div class="cart-button">-->
-<!--                                                <a class="btn btn-primary" href="product-cart.html" title="View Cart">View-->
-<!--                                                    Cart</a>-->
-<!--                                                <a class="btn btn-primary" href="product-checkout.html"-->
-<!--                                                   title="Checkout">Checkout</a>-->
-<!--                                            </div>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
+                                    <!--                                    <tr>-->
+                                    <!--                                        <td colspan="3">-->
+                                    <!--                                            <div class="cart-button">-->
+                                    <!--                                                <a class="btn btn-primary" href="product-cart.html" title="View Cart">View-->
+                                    <!--                                                    Cart</a>-->
+                                    <!--                                                <a class="btn btn-primary" href="product-checkout.html"-->
+                                    <!--                                                   title="Checkout">Checkout</a>-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </td>-->
+                                    <!--                                    </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -175,11 +180,11 @@
     <div id="main-menu">
         <ul class="menu">
             <li class="dropdown">
-                <a th:href="@{/}" title="Homepage">Home</a>
+                <a th:href="@{/}" title="Homepage">Trang Chủ</a>
             </li>
 
             <li class="dropdown">
-                <a th:href="@{/product/}" title="Product">Product</a>
+                <a th:href="@{/product/}" title="Product">Sản Phẩm</a>
                 <div class="dropdown-menu">
                     <ul id="categories">
 
@@ -188,15 +193,7 @@
             </li>
 
             <li class="dropdown">
-                <a href="blog-list-left-sidebar-1.html">Blog</a>
-            </li>
-
-            <li class="dropdown">
-                <a href="page-about-us.html">About Us</a>
-            </li>
-
-            <li class="dropdown">
-                <a href="page-contact.html">Contact</a>
+                <a href="page-contact.html">Liên Hệ</a>
             </li>
         </ul>
     </div>

@@ -47,28 +47,36 @@
                     <div class="block-title">
                         <h2 class="title"><span>Login</span></h2>
                     </div>
-
+                    <div th:if="${message == 'successfully'}" class="alert alert-success" role="alert">
+                        <p>Đổi mật khẩu thành công!</p>
+                    </div>
+                    <div th:if="${message != 'successfully' && message != null}" class="alert alert-danger" role="alert">
+                        <p th:text="${message}"></p>
+                    </div>
                     <form method="post" th:action="@{/login}" enctype="multipart/form-data">
-                        <p th:if="${param.error}" class="error">Invalid email or password</p>
+                        <p th:if="${param.error}" class="error">Mật khẩu hoặc tài khoản không chính xác</p>
                         <div class="form-group">
-                            <label>User name</label>
+                            <label>Tài khoản</label>
                             <input type="text" value="" name="username" required minlength="5">
                         </div>
 
                         <div class="form-group">
-                            <label>Password</label>
+                            <label>Mật khẩu</label>
                             <input type="password" value="" name="password" required minlength="5">
                         </div>
-
+                        <a href="https://www.facebook.com/dialog/oauth?client_id=1171397126960974&redirect_uri=https://ducthuygreen.com:8080/login-facebook">
+                            <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with"
+                                 data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                        </a>
                         <div class="form-group text-center">
                             <div class="link">
-                                <!--                                <a href="#">Forgot your password?</a>-->
-                                <a th:href="@{/register}">Register?</a>
+                                <a th:href="@{/forgot_password}">Quên mật khẩu?</a>
+                                <a th:href="@{/register}">Đăng ký?</a>
                             </div>
                         </div>
 
                         <div class="form-group text-center">
-                            <input type="submit" class="btn btn-primary" value="Sign In">
+                            <input type="submit" class="btn btn-primary" value="Đăng nhập">
                         </div>
                     </form>
                 </div>
@@ -80,6 +88,6 @@
 </div>
 <th:block th:insert="~{/fragments/script}"></th:block>
 </body>
-
+<div id="fb-root"></div>
 <!-- Mirrored from demo1.cloodo.com/html/freshmart/user-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Feb 2022 15:51:57 GMT -->
 </html>

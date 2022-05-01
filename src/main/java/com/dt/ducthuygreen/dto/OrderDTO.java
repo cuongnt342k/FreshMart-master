@@ -47,6 +47,9 @@ public class OrderDTO {
     private Long totalQuantity;
 
     private Boolean status;
-    private Long user_id;
+
+    private Integer confirm;
+
+    private String userName;
 
 }

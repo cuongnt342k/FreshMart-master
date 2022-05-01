@@ -15,14 +15,14 @@ $(document).ready(function () {
         if (userName != null){
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/api/items/" + id.value + "/" + userName,
+                url: "/api/items/" + id.value + "/" + userName,
                 data: JSON.stringify(itemDTO),
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 cache: false,
                 success: function (result) {
                     if (result.id != null){
-                        toastr.success( "Add to cart successfully!");
+                        toastr.success( "Thêm vào giỏ thành công!");
                         fetchCart()
                     }
                 },
@@ -38,7 +38,7 @@ $(document).ready(function () {
         var id = target.querySelector('input');
         console.log(id.value);
         $.ajax({
-            type: "DELETE", url: "http://localhost:8080/api/items/remove/" + id.value,
+            type: "DELETE", url: "/api/items/remove/" + id.value,
             dataType: 'text',
             success: function (response) {
                 fetchCart();
@@ -48,13 +48,22 @@ $(document).ready(function () {
             }
         });
     }
+    $('#detail-form').validate({
+        errorPlacement: function (error, element) {
+            if (element.attr("name") == "qty") {
+                error.insertBefore("#detail-form");
+            }
+        }
+    })
     $('.add-to-cart').on('click', function (event) {
-        addToCart(event);
+        if ($('#detail-form').valid()){
+            addToCart(event);
+        }
     })
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/items/" + userName,
+            type: "GET", url: "/api/items/" + userName,
             dataType: 'json',
             success: function (response) {
                 $('#item-table tbody').empty();
@@ -71,7 +80,7 @@ $(document).ready(function () {
                                                 <a href="product-detail-left-sidebar.html">${item.product.productName}</a>
                                             </div>
                                             <div>
-                                                ${item.quantity} x <span class="product-price">$${item.product.price}</span>
+                                                ${item.quantity} x <span class="product-price">${item.product.price} VND</span>
                                             </div>
                                         </td>
                                         <td class="action">
@@ -92,7 +101,7 @@ $(document).ready(function () {
                                             <div class="cart-button">
                                                 <a class="btn btn-primary" href="/cart/" title="View Cart">View
                                                     Cart</a>
-                                                <a class="btn btn-primary" href="/check-out"
+                                                <a class="btn btn-primary" href="/check-out/"
                                                    title="Checkout">Checkout</a>
                                             </div>
                                         </td>`;

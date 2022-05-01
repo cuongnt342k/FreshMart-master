@@ -12,23 +12,19 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             contentType: "application/json; charset=utf-8",
-            url: "http://localhost:8080/register",
+            url: "/register",
             data: JSON.stringify(user),
             dataType: 'text',
             cache: false,
             success: function (result) {
                 if (result == "Successfully") {
-                    // var alert = `<div class="alert alert-success alert-dismissible" role="alert">
-                    //                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    //                  <div class="alert-message" style="text-align: center">
-                    //                  <strong>Register successfully. Click <a th:href="@{/}">here</a> go to home</strong>
-                    //                  </div>
-                    //              </div>`
-                    // $('#register-form').prepend(alert)
-                    window.location.href = "http://localhost:8080";
-                    // setTimeout(function () {
-                    //     $('.alert').hide("2000")
-                    // }, 3000);
+                    var alert = `<div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                     <div class="alert-message" style="text-align: center">
+                                     <strong>Đăng ký thành công.<a href="/login">click</a> để đăng nhập</strong>
+                                     </div>
+                                 </div>`
+                    $('#register-form').prepend(alert)
                 } else {
                     console.log('Error');
                     var error = `<label class="error">${result}.</label>`;

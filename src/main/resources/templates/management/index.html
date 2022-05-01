@@ -39,7 +39,91 @@
         <th:block th:insert="~{management/fragments/topbar}"></th:block>
 
         <main class="content">
-            <h1>Dashboard</h1>
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-3">Thống kê đơn hàng</h1>
+
+                <div class="row">
+                    <div class="col-12 col-lg-12">
+                        <div class="card flex-fill w-100">
+                            <div class="card-header" id="total-sale">
+                                <h5 class="card-title">Thống kê doanh thu trong năm(VND)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="chartjs-line"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div class="col-12 col-lg-6">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="card-title">Bar Chart</h5>-->
+<!--                                <h6 class="card-subtitle text-muted">A bar chart provides a way of showing data-->
+<!--                                    values represented as vertical bars.</h6>-->
+<!--                            </div>-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="chart">-->
+<!--                                    <canvas id="chartjs-bar"></canvas>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="col-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-header" id="category-total">
+                                <h5 class="card-title">Thông kê loại sản phẩm bán được trong tháng</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart chart-sm">
+                                    <canvas id="chartjs-doughnut"></canvas>
+                                </div>
+                            </div>
+                            <table id="category-table" class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Loại sản phẩm</th>
+                                    <th>Số lượng bán được trong tháng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-header" id="total-product">
+                                <h5 class="card-title">Thống kê sản phẩm bán được trong tháng</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart chart-sm">
+                                    <canvas id="chartjs-pie"></canvas>
+                                </div>
+                            </div>
+                            <table id="product-table" class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng bán được trong tháng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
 
         <th:block th:insert="~{management/fragments/footer}"></th:block>

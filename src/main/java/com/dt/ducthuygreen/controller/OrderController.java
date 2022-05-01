@@ -12,4 +12,9 @@ public class OrderController {
 
         return "check-out";
     }
+    @GetMapping("/history")
+    public String orderHistory(){
+
+        return "order-history";
+    }
 }

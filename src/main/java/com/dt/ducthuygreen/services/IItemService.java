@@ -14,5 +14,7 @@ public interface IItemService {
 
     Item creatNewItem(ItemDTO itemDTO, Long productId, String userId);
 
+    Item creatNewItemWithAccountFaceBook(ItemDTO itemDTO, Long productId, String username);
+
     void deleteItemById(Long id);
 }

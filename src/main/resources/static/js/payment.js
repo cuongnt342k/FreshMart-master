@@ -2,10 +2,10 @@ $(document).ready(function () {
     var totalPrice = 0;
     var totalQuantity = 0;
 
-    function fetchCart() {
+    function fetchOrder() {
         var userName = $('#userName').text();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/items/" + userName,
+            type: "GET", url: "/api/items/" + userName,
             dataType: 'json',
             success: function (response) {
                 $('#table-check-out tbody').empty();
@@ -23,39 +23,25 @@ $(document).ready(function () {
                                                     <a href="/product/${item.product.id}" class="product-name">${item.product.productName}</a>
                                                 </td>
                                                 <td class="text-center">
-                                                    $${item.product.price}
+                                                    ${item.product.price} VND
                                                 </td>
                                                 <td class="text-center">
                                                     ${item.quantity}
                                                 </td>
                                                 <td class="text-center">
-                                                     $${item.product.price * item.quantity}
+                                                     ${item.product.price * item.quantity} VND
                                                 </td>
                                             </tr>`
                     $('#table-check-out tbody').append(row);
                 });
-                var row1 = ` <tr><th> Cart Subtotal
-                                                </th>
-                                                <td class="total">
-                                                    $${totalPrice}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>
-                                                    Shipping
-                                                </th>
-                                                <td>
-                                                    Free Shipping
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>
-                                                    <strong>Order Total</strong>
-                                                </th>
-                                                <td class="total">
-                                                    $${totalPrice}
-                                                </td>
-                                            </tr>`
+                var row1 = ` <tr>
+                                <th>
+                                    <strong>Tổng giỏ</strong>
+                                </th>
+                                <td class="total">
+                                    ${totalPrice} VND
+                                </td>
+                            </tr>`
                 $('#table-cart-total tbody').append(row1);
             }, error: function (e) {
                 alert("ERROR: ", e);
@@ -96,7 +82,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'POST',
                     contentType: "application/json; charset=utf-8",
-                    url: "http://localhost:8080/api/order-items/" + userName,
+                    url: "/api/order-items/" + userName,
                     data: JSON.stringify(orderDTO),
                     dataType: 'json',
                     cache: false,
@@ -105,11 +91,13 @@ $(document).ready(function () {
                             var alert = `<div class="alert alert-success alert-dismissible" role="alert">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                              <div class="alert-message" style="text-align: center">
-                                             <strong>Ordered successfully <a th:href="@{/}">here</a> go to home</strong>
+                                             <strong>Đặt hàng thành công<a href="/check-out/history"> click </a>xem lịch sử đặt hàng</strong>
                                              </div>
                                          </div>`
                             $('#checkout-form').prepend(alert)
-                            // window.location.href = "http://localhost:8080";
+                            window.scrollTo(0, 300);
+                            fetchCart()
+                            // window.location.href = "";
                         } else {
                             console.log('Error');
                             var error = `<label class="error">${result}.</label>`;
@@ -134,15 +122,68 @@ $(document).ready(function () {
                 var alert = `<div class="alert alert-danger alert-dismissible" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     <div class="alert-message" style="text-align: center">
-                                    <strong>You have no items in your cart<a th:href="@{/product/}"> here</a> go to shopping</strong>
+                                    <strong>Không có sản phâm nào trong giỏ<a href="/product/">click</a> quay lại mua sắm</strong>
                                     </div>
                                 </div>`
-                $('#checkout-form').prepend(alert)
+                $('#checkout-form').prepend(alert);
             }
         }
     });
     (function () {
-        fetchCart();
+        fetchOrder();
     })();
-
+    function fetchCart() {
+        var userName = $('#userName').text();
+        $.ajax({
+            type: "GET", url: "/api/items/" + userName,
+            dataType: 'json',
+            success: function (response) {
+                $('#item-table tbody').empty();
+                var total = 0;
+                $.each(response, (i, item) => {
+                    total += item.quantity * item.product.price;
+                    let row = `<tr><td class="product-image">
+                                            <a href="product-detail-left-sidebar.html">
+                                                <img src="${item.product.image}" alt="Product">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="product-name">
+                                                <a href="product-detail-left-sidebar.html">${item.product.productName}</a>
+                                            </div>
+                                            <div>
+                                                ${item.quantity} x <span class="product-price">${item.product.price} VND</span>
+                                            </div>
+                                        </td>
+                                        <td class="action">
+                                            <a class="remove" id="remove">
+                                                <input type="hidden" value="${item.id}">
+                                                <i class="fa fa-trash-o" aria-hidden="true"><input type="hidden" value="${item.id}"></i>
+                                            </a>
+                                        </td>
+                                    </tr>`
+                    $('#item-table tbody').append(row);
+                });
+                var totalAndBtn = ` <tr class="total">
+                                        <td>Total:</td>
+                                        <td colspan="2">${total} VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="cart-button">
+                                                <a class="btn btn-primary" href="/cart/" title="View Cart">Xem giỏ</a>
+                                                <a class="btn btn-primary" href="/check-out/"
+                                                   title="Checkout">Đặt hàng</a>
+                                            </div>
+                                        </td>`;
+                $('#item-table tbody').append(totalAndBtn);
+                $('.remove').on('click', function (event) {
+                    removeItem(event);
+                })
+            }, error: function (e) {
+                alert("ERROR: ", e);
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 })

@@ -1,7 +1,0 @@
-
-[
-java:S1155C">Use isEmpty() to check whether the collection is empty or not.(º¡Èý8æ«Ÿ¿÷/
-^
-java:S4973X"<Strings and Boxed types should be compared using "equals()".(³³ðúýÿÿÿÿ8ñ«Ÿ¿÷/
-Y
-java:S3655Q"7Call "Optional#isPresent()" before accessing the value.(÷‚·ïüÿÿÿÿ8ž­Ÿ¿÷/

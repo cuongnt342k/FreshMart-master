@@ -18,7 +18,15 @@ public interface IOrderService {
 
     Order updateOrder(OrderDTO orderDTO);
 
-    List<Order> getAllOrderByUserId(Long userId);
+//    List<Order> getAllOrderByUserId(Long userId);
 
     boolean deleteOrderById(Long orderId);
+
+    Order cancelOrder(Long id);
+
+    Order confirmOrder(Long id);
+
+    Order changeStatus(Long id);
+
+    Order detailOrder(Long id);
 }

@@ -1,6 +1,5 @@
 package com.dt.ducthuygreen.services.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.log4j.Log4j2;
@@ -17,17 +16,19 @@ import com.dt.ducthuygreen.entities.Category;
 import com.dt.ducthuygreen.entities.Product;
 import com.dt.ducthuygreen.exception.NotFoundException;
 import com.dt.ducthuygreen.repos.ProductRepository;
-import com.dt.ducthuygreen.services.CategoryService;
-import com.dt.ducthuygreen.services.ProductServices;
+import com.dt.ducthuygreen.services.ICategoryService;
+import com.dt.ducthuygreen.services.IProductServices;
 
 @Service
 @Log4j2
-public class ProductServicesImpl implements ProductServices {
+public class ProductServicesImpl implements IProductServices {
 
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
-    private CategoryService categoryService;
+    private ICategoryService ICategoryService;
+
     private UploadFile uploadFile = new UploadFile();
 
     @Override
@@ -58,7 +59,7 @@ public class ProductServicesImpl implements ProductServices {
     public Product create(ProductDTO productDTO, Long categoryId, MultipartFile file) {
         Product product = new Product();
         productDTO.setSold(0);
-        Category category = categoryService.findById(categoryId);
+        Category category = ICategoryService.findById(categoryId);
 
         if (category == null) {
             throw new NotFoundException("Can not find category id: " + categoryId);
@@ -79,7 +80,7 @@ public class ProductServicesImpl implements ProductServices {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setQuantity(productDTO.getQuantity());
-        Category category = categoryService.findById(categoryId);
+        Category category = ICategoryService.findById(categoryId);
         product.setCategory(category);
         if (file != null) {
             product.setImage(uploadFile.getUrlFromFile(file));

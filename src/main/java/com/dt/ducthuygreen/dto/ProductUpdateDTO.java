@@ -16,8 +16,6 @@ public class ProductUpdateDTO {
 
     private String description;
 
-    private Integer evaluate;
-
     private Integer quantity;
 
     private Integer sold;

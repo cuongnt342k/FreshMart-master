@@ -1,7 +1,5 @@
 package com.dt.ducthuygreen.dto;
 
-import com.dt.ducthuygreen.entities.BaseModel;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +26,6 @@ public class ProductDTO {
     private Long price;
 
     private String description;
-
-    private Integer evaluate;
 
     @NotNull
     private Integer quantity;

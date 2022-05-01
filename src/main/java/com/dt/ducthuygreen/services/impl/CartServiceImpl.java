@@ -1,9 +1,6 @@
 package com.dt.ducthuygreen.services.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import com.dt.ducthuygreen.repos.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import com.dt.ducthuygreen.entities.User;
 import com.dt.ducthuygreen.exception.NotFoundException;
 import com.dt.ducthuygreen.repos.CartRepository;
 import com.dt.ducthuygreen.services.ICartService;
-import com.dt.ducthuygreen.services.UserService;
+import com.dt.ducthuygreen.services.IUserService;
 
 @Service
 public class CartServiceImpl implements ICartService {
@@ -24,7 +21,7 @@ public class CartServiceImpl implements ICartService {
     @Autowired
     private CartRepository cartRepository;
     @Autowired
-    private UserService userService;
+    private IUserService IUserService;
     @Autowired
     private ItemRepository itemRepository;
 
@@ -37,23 +34,20 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public Cart createNewCart(CartDTO cartDTO, Long userId) {
-        User user = userService.findById(userId);
+        User user = IUserService.findById(userId);
         if (user == null) {
             throw new NotFoundException("UserId is not containt");
         }
 
 //		cartDTO.setUserId(userId);
         Cart cart = ConvertObject.convertCartDTOTOCart(cartDTO);
-
+        cart.setUserName(user.getUsername());
         return cartRepository.save(cart);
     }
 
     @Override
     public Cart getCartByUserName(String userName) {
-
-        userService.findByUsername(userName);
-
-        return userService.findByUsername(userName).getCart();
+        return cartRepository.findCartByUserName(userName);
     }
 
     @Override
@@ -69,7 +63,7 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public void deleteItemByUserId(Long userId) {
-        Cart cart = userService.findById(userId).getCart();
+        Cart cart = IUserService.findById(userId).getCart();
 //		carts = carts.stream().filter(item -> item.getUser_id() == userId).collect(Collectors.toList());
         itemRepository.deleteAllByCart(cart);
 

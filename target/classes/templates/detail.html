@@ -43,8 +43,8 @@
                     <div class="product-item">
                         <div class="product-title" th:text="${product.getProductName()}">
                         </div>
-                        <input type="hidden" th:value="${product.getId()}" name="cartId"
-                               th:id="cart +${product.getId()}">
+                        <input type="hidden" th:value="${product.getId()}" name="productId"
+                               id="productId">
                         <div class="row">
                             <div class="product-left col-md-5 col-sm-5 col-xs-12">
                                 <div class="product-image vertical">
@@ -64,14 +64,17 @@
                                 <div class="product-info">
                                     <div class="product-price">
                                         <input type="hidden" th:value="${product.price}" id="price">
-                                        <span class="sale-price"> $ <span th:text="${product.price}"></span></span>
-                                        <span class="sale-price"> $ <span th:text="${product.price}"></span></span>
+                                        <span class="sale-price"><span th:text="${product.price}"></span> VND</span>
                                     </div>
 
-                                    <div class="product-stock">
+                                    <div class="product-stock" th:if="${product.quantity>0}">
                                         <span class="availability">Availability :</span><i class="fa fa-check-square-o"
-                                                                                           aria-hidden="true"></i>In
-                                        stock
+                                                                                           aria-hidden="true"></i>Còn
+                                        hàng
+                                    </div>
+                                    <div style="color: gray" class="product-stock" th:if="${product.quantity <=0}">
+                                        <span class="availability">Availability :</span><i
+                                            aria-hidden="true"></i>Hết hàng
                                     </div>
 
                                     <div class="product-short-description" th:text="${product.description}">
@@ -122,54 +125,57 @@
                                     </div>
 
                                     <div class="product-add-to-cart border-bottom">
-                                        <div class="product-quantity">
-                                            <span class="control-label">QTY :</span>
-                                            <div class="qty">
-                                                <div class="input-group">
-                                                    <input type="text" id="qty" name="qty" value="1" data-min="1">
-                                                    <span class="adjust-qty">
+                                        <form id="detail-form" style="margin: 1rem">
+                                            <div class="product-quantity">
+                                                <span class="control-label">Số lượng :</span>
+                                                <div class="qty">
+                                                    <div class="input-group">
+                                                        <input type="text" id="qty" name="qty" value="1" data-min="1"
+                                                               required>
+                                                        <span class="adjust-qty">
 																<span class="adjust-btn plus">+</span>
 																<span class="adjust-btn minus">-</span>
 															</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <div class="product-buttons">
                                             <a class="add-to-cart" th:href="@{/login}"
                                                sec:authorize="!isAuthenticated()">
                                                 <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                                <span>Add To Cart</span>
+                                                <span>Thêm vào giỏ</span>
                                             </a>
                                             <a class="add-to-cart" sec:authorize="isAuthenticated()">
                                                 <input type="hidden" th:value="${product.getId()}" name="cartId">
                                                 <i class="fa fa-shopping-basket" aria-hidden="true"><input type="hidden"
                                                                                                            th:value="${product.getId()}"
                                                                                                            name="cartId"></i>
-                                                <span>Add To Cart<input type="hidden" th:value="${product.getId()}"
-                                                                        name="cartId"></span>
+                                                <span>Thêm vào giỏ<input type="hidden" th:value="${product.getId()}"
+                                                                         name="cartId"></span>
                                             </a>
 
-                                            <a class="add-wishlist" href="#">
-                                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                            </a>
+                                            <!--                                            <a class="add-wishlist" href="#">-->
+                                            <!--                                                <i class="fa fa-heart" aria-hidden="true"></i>-->
+                                            <!--                                            </a>-->
                                         </div>
                                     </div>
 
-                                    <!--                                    <div class="product-share border-bottom">-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <a href="#"><i class="zmdi zmdi-share" aria-hidden="true"></i><span-->
-                                    <!--                                                    class="text">Share</span></a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <a href="#"><i class="zmdi zmdi-email" aria-hidden="true"></i><span-->
-                                    <!--                                                    class="text">Send to a friend</span></a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <a href="#"><i class="zmdi zmdi-print" aria-hidden="true"></i><span-->
-                                    <!--                                                    class="text">Print</span></a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
+                                    <div class="product-share border-bottom">
+                                        <div class="item">
+                                            <a href="#"><i class="zmdi zmdi-share" aria-hidden="true"></i><span
+                                                    class="text">Share</span></a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="#"><i class="zmdi zmdi-email" aria-hidden="true"></i><span
+                                                    class="text">Send to a friend</span></a>
+                                        </div>
+                                        <div class="item">
+                                            <a href="#"><i class="zmdi zmdi-print" aria-hidden="true"></i><span
+                                                    class="text">Print</span></a>
+                                        </div>
+                                    </div>
 
                                     <div class="product-review border-bottom">
                                         <div class="item">
@@ -196,178 +202,148 @@
                                         </div>
                                     </div>
 
-                                    <!--                                    <div class="product-extra">-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <span class="control-label">Review :</span><span class="control-label">E-02154</span>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <span class="control-label">Categories :</span>-->
-                                    <!--                                            <a href="#" title="Vegetables">Vegetables,</a>-->
-                                    <!--                                            <a href="#" title="Fruits">Fruits,</a>-->
-                                    <!--                                            <a href="#" title="Apple">Apple</a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="item">-->
-                                    <!--                                            <span class="control-label">Tags :</span>-->
-                                    <!--                                            <a href="#" title="Vegetables">Hot Trend,</a>-->
-                                    <!--                                            <a href="#" title="Fruits">Summer</a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
+                                    <div class="product-extra">
+                                        <div class="item">
+                                            <span class="control-label">Review :</span><span class="control-label">E-02154</span>
+                                        </div>
+                                        <div class="item">
+                                            <span class="control-label">Thể loại :</span>
+                                            <a href="#" title="Vegetables">Rau,</a>
+                                            <a href="#" title="Fruits">Trái cây,</a>
+                                        </div>
+                                        <!--                                        <div class="item">-->
+                                        <!--                                            <span class="control-label">Tags :</span>-->
+                                        <!--                                            <a href="#" title="Vegetables">Hot Trend,</a>-->
+                                        <!--                                            <a href="#" title="Fruits">Summer</a>-->
+                                        <!--                                        </div>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!--                        <div class="product-tab">-->
-                        <!--                            &lt;!&ndash; Tab Navigation &ndash;&gt;-->
-                        <!--                            <div class="tab-nav">-->
-                        <!--                                <ul>-->
-                        <!--                                    <li class="active">-->
-                        <!--                                        <a data-toggle="tab" href="#description">-->
-                        <!--                                            <span>Description</span>-->
-                        <!--                                        </a>-->
-                        <!--                                    </li>-->
-                        <!--                                    <li>-->
-                        <!--                                        <a data-toggle="tab" href="#additional-information">-->
-                        <!--                                            <span>Additional Information</span>-->
-                        <!--                                        </a>-->
-                        <!--                                    </li>-->
-                        <!--                                    <li>-->
-                        <!--                                        <a data-toggle="tab" href="#review">-->
-                        <!--                                            <span>Review</span>-->
-                        <!--                                        </a>-->
-                        <!--                                    </li>-->
-                        <!--                                </ul>-->
-                        <!--                            </div>-->
+                        <div class="product-tab">
+                            <!-- Tab Navigation -->
+                            <div class="tab-nav">
+                                <ul>
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#description">
+                                            <span>Mô tả</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#additional-information">
+                                            <span>Thông tin bổ sung</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#review">
+                                            <span>Review</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
 
-                        <!--                            &lt;!&ndash; Tab Content &ndash;&gt;-->
-                        <!--                            <div class="tab-content">-->
-                        <!--                                &lt;!&ndash; Description &ndash;&gt;-->
-                        <!--                                <div role="tabpanel" class="tab-pane fade in active" id="description">-->
-                        <!--                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula-->
-                        <!--                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient-->
-                        <!--                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque-->
-                        <!--                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,-->
-                        <!--                                        fringilla vel, aliquet nec, vulputate eget, arcu.</p>-->
-                        <!--                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula-->
-                        <!--                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient-->
-                        <!--                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque-->
-                        <!--                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,-->
-                        <!--                                        fringilla vel, aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet,-->
-                        <!--                                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.-->
-                        <!--                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus-->
-                        <!--                                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla-->
-                        <!--                                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec,-->
-                        <!--                                        vulputate eget, arcu.</p>-->
-                        <!--                                </div>-->
+                            <!-- Tab Content -->
+                            <div class="tab-content">
+                                <!-- Description -->
+                                <div role="tabpanel" class="tab-pane fade in active" id="description">
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+                                        fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+                                        fringilla vel, aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet,
+                                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
+                                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec,
+                                        vulputate eget, arcu.</p>
+                                </div>
 
-                        <!--                                &lt;!&ndash; Product Tag &ndash;&gt;-->
-                        <!--                                <div role="tabpanel" class="tab-pane fade" id="additional-information">-->
-                        <!--                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula-->
-                        <!--                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient-->
-                        <!--                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque-->
-                        <!--                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,-->
-                        <!--                                        fringilla vel, aliquet nec, vulputate eget, arcu.</p>-->
-                        <!--                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula-->
-                        <!--                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient-->
-                        <!--                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque-->
-                        <!--                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,-->
-                        <!--                                        fringilla vel, aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet,-->
-                        <!--                                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.-->
-                        <!--                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus-->
-                        <!--                                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla-->
-                        <!--                                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec,-->
-                        <!--                                        vulputate eget, arcu.</p>-->
-                        <!--                                </div>-->
+                                <!-- Product Tag -->
+                                <div role="tabpanel" class="tab-pane fade" id="additional-information">
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+                                        fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+                                        fringilla vel, aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet,
+                                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
+                                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec,
+                                        vulputate eget, arcu.</p>
+                                </div>
 
-                        <!--                                &lt;!&ndash; Review &ndash;&gt;-->
-                        <!--                                <div role="tabpanel" class="tab-pane fade" id="review">-->
-                        <!--                                    <div class="reviews">-->
-                        <!--                                        <div class="comments-list">-->
-                        <!--                                            <div class="item">-->
-                        <!--                                                <div class="comment-left pull-left">-->
-                        <!--                                                    <div class="avatar">-->
-                        <!--                                                        <img src="img/avatar.jpg" alt="" width="70" height="70">-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="product-rating">-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="comment-body">-->
-                        <!--                                                    <div class="comment-meta">-->
-                        <!--                                                        <span class="author">Peter</span> - <span class="time">June 02, 2018</span>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="comment-content">Look at the sunset, life is amazing,-->
-                        <!--                                                        life is beautiful, life is what you make it. To succeed you must-->
-                        <!--                                                        believe. When you believe, you will succeed. In life there will-->
-                        <!--                                                        be road blocks but we will over come it. Celebrate success-->
-                        <!--                                                        right, the only way, apple. The ladies always say Khaled you-->
-                        <!--                                                        smell good, I use no cologne. Cocoa butter is the key.-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
+                                <!-- Review -->
+                                <div role="tabpanel" class="tab-pane fade" id="review">
+                                    <div class="reviews">
+                                        <div class="comments-list" id="comment-list" style="display: grid">
 
-                        <!--                                            <div class="item">-->
-                        <!--                                                <div class="comment-left pull-left">-->
-                        <!--                                                    <div class="avatar">-->
-                        <!--                                                        <img src="img/avatar.jpg" alt="" width="70" height="70">-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="product-rating">-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star on"></div>-->
-                        <!--                                                        <div class="star"></div>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="comment-body">-->
-                        <!--                                                    <div class="comment-meta">-->
-                        <!--                                                        <span class="author">Merry</span> - <span class="time">June 17, 2018</span>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="comment-content">Look at the sunset, life is amazing,-->
-                        <!--                                                        life is beautiful, life is what you make it. To succeed you must-->
-                        <!--                                                        believe. When you believe, you will succeed. In life there will-->
-                        <!--                                                        be road blocks but we will over come it. Celebrate success-->
-                        <!--                                                        right, the only way, apple. The ladies always say Khaled you-->
-                        <!--                                                        smell good, I use no cologne. Cocoa butter is the key.-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
+                                        </div>
+                                        <button style="text-align: center" id="loadMore-btn" class="btn btn-primary"
+                                                type="button">Load more
+                                        </button>
+                                        <div class="review-form">
+                                            <h4 class="title">Write a review</h4>
 
-                        <!--&lt;!&ndash;                                        <div class="review-form">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                            <h4 class="title">Write a review</h4>&ndash;&gt;-->
+                                            <form action="http://demo1.cloodo.com/html/freshmart/index.html"
+                                                  method="post" class="form-validate" id="review-form">
+                                                <div class="form-group">
+                                                    <div class="text">Your Rating</div>
+                                                    <fieldset class="starability-basic" style="min-height: unset">
 
-                        <!--&lt;!&ndash;                                            <form action="http://demo1.cloodo.com/html/freshmart/index.html"&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                  method="post" class="form-validate">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                <div class="form-group">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    <div class="text">Your Rating</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    <div class="product-rating">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                        <div class="star"></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                        <div class="star"></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                        <div class="star"></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                        <div class="star"></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                        <div class="star"></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                </div>&ndash;&gt;-->
+                                                        <input type="radio" id="rate1" name="rating" value="1"/>
+                                                        <label for="rate1">1 star.</label>
 
-                        <!--&lt;!&ndash;                                                <div class="form-group">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    <div class="text">You review<sup class="required">*</sup></div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    <textarea id="comment" name="comment" cols="45" rows="6"&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                              aria-required="true"></textarea>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                </div>&ndash;&gt;-->
+                                                        <input type="radio" id="rate2" name="rating" value="2"/>
+                                                        <label for="rate2">2 stars.</label>
 
-                        <!--&lt;!&ndash;                                                <div class="form-group">&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                    <button class="btn btn-primary">Send your review</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                                </div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                            </form>&ndash;&gt;-->
-                        <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
+                                                        <input type="radio" id="rate3" name="rating" value="3"/>
+                                                        <label for="rate3">3 stars.</label>
+
+                                                        <input type="radio" id="rate4" name="rating" value="4"/>
+                                                        <label for="rate4">4 stars.</label>
+
+                                                        <input type="radio" id="rate5" name="rating" value="5" checked/>
+                                                        <label for="rate5">5 stars.</label>
+
+                                                        <span class="starability-focus-ring"></span>
+                                                    </fieldset>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="text">You review<sup class="required">*</sup></div>
+                                                    <textarea id="comment" name="comment" cols="45" rows="6"
+                                                              aria-required="true" required></textarea>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <button id="review-btn" class="btn btn-primary"
+                                                            sec:authorize="isAuthenticated()" type="button">Send your
+                                                        review
+                                                    </button>
+                                                    <a th:href="@{/login}" sec:authorize="!isAuthenticated()">
+                                                        <button id="review-btn" class="btn btn-primary" type="button">
+                                                            You must login to send your review
+                                                        </button>
+                                                    </a>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -394,6 +370,9 @@
 <th:block th:insert="~{/fragments/script}"></th:block>
 <script th:src="@{/js/detail.js}"></script>
 <script th:src="@{/js/add-to-cart.js}"></script>
+<script th:src="@{/js/star-rating.js}"></script>
+<script th:src="@{/js/review-rating.js}"></script>
+
 </body>
 
 </html>

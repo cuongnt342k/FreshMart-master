@@ -6,8 +6,8 @@ $(document).ready(function () {
         var catID = $('#cateID').val()
         $.ajax({
             type: "GET",
-            // url: "http://localhost:8080/management/movie/api/list-movie?textSearch=" + textSearch,
-            url: "http://localhost:8080/api/products/category?cateID=" + catID,
+            // url: "/management/movie/api/list-movie?textSearch=" + textSearch,
+            url: "/api/products/category?cateID=" + catID,
             data: {
                 page: startPage, size: 12
             },
@@ -39,8 +39,7 @@ $(document).ready(function () {
 <!--                                                </div>-->
 
                                                 <div class="product-price">
-                                                    <span class="sale-price">$${product.price}</span>
-                                                    <span class="base-price">$${product.price}</span>
+                                                    <span class="sale-price">${product.price} VND</span>
                                                 </div>
                                                 <div class="product-buttons" id="product-buttons${product.id}">
                                                     <a class="quickview" href="/product/${product.id}">
@@ -87,7 +86,7 @@ $(document).ready(function () {
         var id = target.querySelector('input');
         console.log(id.value);
         $.ajax({
-            type: "DELETE", url: "http://localhost:8080/api/items/remove/" + id.value,
+            type: "DELETE", url: "/api/items/remove/" + id.value,
             dataType: 'text',
             success: function (response) {
                 fetchCart();
@@ -101,7 +100,7 @@ $(document).ready(function () {
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({
-            type: "GET", url: "http://localhost:8080/api/items/" + userName,
+            type: "GET", url: "/api/items/" + userName,
             dataType: 'json',
             success: function (response) {
                 $('#item-table tbody').empty();
@@ -139,7 +138,7 @@ $(document).ready(function () {
                                             <div class="cart-button">
                                                 <a class="btn btn-primary" href="/cart/" title="View Cart">View
                                                     Cart</a>
-                                                <a class="btn btn-primary" href="/check-out"
+                                                <a class="btn btn-primary" href="/check-out/"
                                                    title="Checkout">Checkout</a>
                                             </div>
                                         </td>`;
@@ -170,14 +169,14 @@ $(document).ready(function () {
         if (userName != null) {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/api/items/" + id.value + "/" + userName,
+                url: "/api/items/" + id.value + "/" + userName,
                 data: JSON.stringify(itemDTO),
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 cache: false,
                 success: function (result) {
                     if (result.id != null) {
-                        toastr.success("Add to cart successfully!");
+                        toastr.success("Thêm vào giỏ thành công!");
                         fetchCart()
                     }
                 },
