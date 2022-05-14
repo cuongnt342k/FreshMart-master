@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    function addToCart(event){
+    function addToCart(event) {
         var target = event.target;
         var id = target.querySelector('input');
         var qty = $('#qty').val();
-        if (qty == undefined){
+        if (qty == undefined) {
             qty = 1;
         }
         var price = $('#price').val();
@@ -12,7 +12,7 @@ $(document).ready(function () {
             price: price
         }
         var userName = $('#userName').text();
-        if (userName != null){
+        if (userName != null) {
             $.ajax({
                 type: "POST",
                 url: "/api/items/" + id.value + "/" + userName,
@@ -21,8 +21,8 @@ $(document).ready(function () {
                 dataType: 'json',
                 cache: false,
                 success: function (result) {
-                    if (result.id != null){
-                        toastr.success( "Thêm vào giỏ thành công!");
+                    if (result.id != null) {
+                        toastr.success("Thêm vào giỏ thành công!");
                         fetchCart()
                     }
                 },
@@ -33,6 +33,7 @@ $(document).ready(function () {
             })
         }
     }
+
     function removeItem(event) {
         var target = event.target;
         var id = target.querySelector('input');
@@ -48,18 +49,43 @@ $(document).ready(function () {
             }
         });
     }
+
     $('#detail-form').validate({
+        rules: {
+            qty: {positiveNumber: true},
+        },
         errorPlacement: function (error, element) {
+            $('label.error').remove();
             if (element.attr("name") == "qty") {
                 error.insertBefore("#detail-form");
             }
         }
     })
+    $.validator.addMethod('positiveNumber',
+        function (value) {
+            return Number(value) > 0;
+        }, 'Enter a positive number.');
+
     $('.add-to-cart').on('click', function (event) {
-        if ($('#detail-form').valid()){
+        $('label.error').remove();
+        if ($('#detail-form').valid()) {
             addToCart(event);
         }
     })
+    $("#plus-qty").on('click', function () {
+        var quantity = parseInt($('#qty').val());
+        quantity = quantity + 1;
+        $('#qty').val(quantity);
+    })
+
+    $("#minus-qty").on('click', function () {
+        var quantity = parseInt($('#qty').val());
+        if (quantity > 1){
+            quantity = quantity - 1;
+            $('#qty').val(quantity);
+        }
+    })
+
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({

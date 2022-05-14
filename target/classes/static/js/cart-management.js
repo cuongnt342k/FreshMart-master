@@ -27,23 +27,23 @@ $(document).ready(function () {
                                 <a href="/product/${item.product.id}" class="product-name">${item.product.productName}</a>
                             </td>
                             <td class="text-center">
-                                $${item.product.price}
+                                ${item.product.price} VND
                             </td>
                             <td>
                                 <div class="product-quantity">
                                     <div class="qty">
                                         <div class="input-group">
-                                            <input type="text" name="qty" value="${item.quantity}" data-min="1">
+                                            <input type="text" name="qty" id="qty${item.id}" value="${item.quantity}" data-min="1" required>
                                             <span class="adjust-qty">
-															<span class="adjust-btn plus">+</span>
-															<span class="adjust-btn minus">-</span>
-														</span>
+                                                <button type="button" class="adjust-btn plus btn-plus" value="${item.id}">+</button>
+                                                <button type="button" class="adjust-btn minus btn-minus" value="${item.id}">-</button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center">
-                                $${item.quantity * item.product.price}
+                                ${item.quantity * item.product.price} VND
                             </td>
                         </tr>`
                     $('#cart-table tbody').append(row);
@@ -61,8 +61,110 @@ $(document).ready(function () {
                 alert("ERROR: ", e);
                 console.log("ERROR: ", e);
             }
+        }).done(function () {
+            $(".btn-plus").on('click', function (event) {
+                var id = event.target.value;
+                var idqty = "#qty" + event.target.value;
+                var qty = parseInt($(idqty).val());
+                qty += 1;
+                $(idqty).val(qty);
+                var itemDTO = {
+                    id: id,
+                    quantity: $(idqty).val()
+                }
+                $.ajax({
+                    url: "/api/items/update",
+                    type: 'PUT',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(itemDTO),
+                    dataType: 'text',
+                    cache: false,
+                    success: function (result) {
+                        if (result == "Successfully") {
+                            toastr.success("Update successfully!");
+                            fetchCart();
+                        }
+                    },
+                    error: function (e) {
+                        var alert = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <div class="alert-message" style="text-align: center">
+                                    <strong>Have some error:</strong> ${e}
+                                    </div>
+                                </div>`
+                        $('.content').prepend(alert)
+                        setTimeout(function () {
+                            $('.alert').hide("2000")
+                        }, 3000);
+                        console.log("Error: ", JSON.stringify(e));
+                    }
+                })
+            })
+
+            $(".btn-minus").on('click', function (event) {
+                var id = event.target.value;
+                var idqty = "#qty" + event.target.value;
+                var qty = parseInt($(idqty).val());
+                if (qty > 1) {
+                    qty = qty - 1;
+                    $(idqty).val(qty);
+                }
+                var itemDTO = {
+                    id: id,
+                    quantity: $(idqty).val()
+                }
+                $.ajax({
+                    url: "/api/items/update",
+                    type: 'PUT',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(itemDTO),
+                    dataType: 'text',
+                    cache: false,
+                    success: function (result) {
+                        if (result == "Successfully") {
+                            toastr.success("Thành công!");
+                            fetchCart();
+                        }
+                    },
+                    error: function (e) {
+                        var alert = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <div class="alert-message" style="text-align: center">
+                                    <strong>Have some error:</strong> ${e}
+                                    </div>
+                                </div>`
+                        $('.content').prepend(alert)
+                        setTimeout(function () {
+                            $('.alert').hide("2000")
+                        }, 3000);
+                        console.log("Error: ", JSON.stringify(e));
+                    }
+                })
+            })
+            $('#check-out-btn').click(function () {
+                $('label.error').remove();
+                if ($('#form-cart-management').valid()) {
+
+                }
+            })
         });
     }
+
+    $('#form-cart-management').validate({
+        rules: {
+            qty: {positiveNumber: true},
+        },
+        errorPlacement: function (error, element) {
+            $('label.error').remove();
+            if (element.attr("name") == "qty") {
+                error.insertBefore("#form-cart-management");
+            }
+        }
+    })
+    $.validator.addMethod('positiveNumber',
+        function (value) {
+            return Number(value) > 0;
+        }, 'Enter a positive number.');
 
     function removeItem(event) {
         var target = event.target;

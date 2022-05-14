@@ -46,37 +46,39 @@
         </div>
 
         <div class="container">
-            <div class="page-cart">
-                <div class="table-responsive">
-                    <table class="cart-summary table table-bordered" id="cart-table">
-                        <thead>
-                        <tr>
-                            <th class="width-20">&nbsp;</th>
-                            <th class="width-80 text-center">Ảnh</th>
-                            <th>Sản phẩm</th>
-                            <th class="width-100 text-center">Đơn giá</th>
-                            <th class="width-100 text-center">Số lượng</th>
-                            <th class="width-100 text-center">Tổng</th>
-                        </tr>
-                        </thead>
+            <form id="form-cart-management" action="/check-out/">
+                <div class="page-cart">
+                    <div class="table-responsive">
+                        <table class="cart-summary table table-bordered" id="cart-table">
+                            <thead>
+                            <tr>
+                                <th class="width-20">&nbsp;</th>
+                                <th class="width-80 text-center">Ảnh</th>
+                                <th>Sản phẩm</th>
+                                <th class="width-100 text-center">Đơn giá</th>
+                                <th class="width-100 text-center">Số lượng</th>
+                                <th class="width-100 text-center">Tổng</th>
+                            </tr>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
 
-                        </tbody>
+                            </tbody>
 
-                        <tfoot>
+                            <tfoot>
 
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="checkout-btn">
+                        <button type="submit" id="check-out-btn" class="btn btn-primary pull-right" title="Proceed to checkout">
+                            <span>Đặt hàng</span>
+                            <i class="fa fa-angle-right ml-xs"></i>
+                        </button>
+                    </div>
                 </div>
-
-                <div class="checkout-btn">
-                    <a th:href="@{/check-out/}" class="btn btn-primary pull-right" title="Proceed to checkout">
-                        <span>Đặt hàng</span>
-                        <i class="fa fa-angle-right ml-xs"></i>
-                    </a>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 

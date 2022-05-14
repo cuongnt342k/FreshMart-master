@@ -80,6 +80,6 @@ public class OrderControllerRest {
     @DeleteMapping("/deleteOrder/{orderId}")
     public String deleteOrderById(@PathVariable("orderId") Long orderId) {
         if (orderService.deleteOrderById(orderId)) return "Successfully";
-        return "Error";
+        return "Không thể xóa đơn hàng này!";
     }
 }

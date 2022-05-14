@@ -66,16 +66,9 @@
                                         <input type="hidden" th:value="${product.price}" id="price">
                                         <span class="sale-price"><span th:text="${product.price}"></span> VND</span>
                                     </div>
-
-                                    <div class="product-stock" th:if="${product.quantity>0}">
-                                        <span class="availability">Availability :</span><i class="fa fa-check-square-o"
-                                                                                           aria-hidden="true"></i>Còn
-                                        hàng
-                                    </div>
-                                    <div style="color: gray" class="product-stock" th:if="${product.quantity <=0}">
-                                        <span class="availability">Availability :</span><i
-                                            aria-hidden="true"></i>Hết hàng
-                                    </div>
+                                    <span class="availability">Availability :</span><i class="fa fa-check-square-o"
+                                                                                       aria-hidden="true"></i>Còn
+                                    hàng
 
                                     <div class="product-short-description" th:text="${product.description}">
 
@@ -133,8 +126,10 @@
                                                         <input type="text" id="qty" name="qty" value="1" data-min="1"
                                                                required>
                                                         <span class="adjust-qty">
-																<span class="adjust-btn plus">+</span>
-																<span class="adjust-btn minus">-</span>
+																<button type="button" id="plus-qty"
+                                                                        class="adjust-btn plus">+</button>
+																<button type="button" id="minus-qty"
+                                                                        class="adjust-btn minus">-</button>
 															</span>
                                                     </div>
                                                 </div>
@@ -162,20 +157,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="product-share border-bottom">
-                                        <div class="item">
-                                            <a href="#"><i class="zmdi zmdi-share" aria-hidden="true"></i><span
-                                                    class="text">Share</span></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="#"><i class="zmdi zmdi-email" aria-hidden="true"></i><span
-                                                    class="text">Send to a friend</span></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="#"><i class="zmdi zmdi-print" aria-hidden="true"></i><span
-                                                    class="text">Print</span></a>
-                                        </div>
-                                    </div>
+                                    <!--                                    <div class="product-share border-bottom">-->
+                                    <!--                                        <div class="item">-->
+                                    <!--                                            <a href="#"><i class="zmdi zmdi-share" aria-hidden="true"></i><span-->
+                                    <!--                                                    class="text">Share</span></a>-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <div class="item">-->
+                                    <!--                                            <a href="#"><i class="zmdi zmdi-email" aria-hidden="true"></i><span-->
+                                    <!--                                                    class="text">Send to a friend</span></a>-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <div class="item">-->
+                                    <!--                                            <a href="#"><i class="zmdi zmdi-print" aria-hidden="true"></i><span-->
+                                    <!--                                                    class="text">Print</span></a>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
 
                                     <div class="product-review border-bottom">
                                         <div class="item">
@@ -237,7 +232,7 @@
                                     </li>
                                     <li>
                                         <a data-toggle="tab" href="#review">
-                                            <span>Review</span>
+                                            <span>Đánh giá</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -290,15 +285,15 @@
 
                                         </div>
                                         <button style="text-align: center" id="loadMore-btn" class="btn btn-primary"
-                                                type="button">Load more
+                                                type="button">Tải thêm bình đánh giá
                                         </button>
                                         <div class="review-form">
-                                            <h4 class="title">Write a review</h4>
+                                            <h4 class="title">Đánh giá san phẩm</h4>
 
                                             <form action="http://demo1.cloodo.com/html/freshmart/index.html"
                                                   method="post" class="form-validate" id="review-form">
                                                 <div class="form-group">
-                                                    <div class="text">Your Rating</div>
+                                                    <div class="text">Đánh giá</div>
                                                     <fieldset class="starability-basic" style="min-height: unset">
 
                                                         <input type="radio" id="rate1" name="rating" value="1"/>
@@ -321,19 +316,18 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="text">You review<sup class="required">*</sup></div>
+                                                    <div class="text">Bình luận<sup class="required">*</sup></div>
                                                     <textarea id="comment" name="comment" cols="45" rows="6"
                                                               aria-required="true" required></textarea>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <button id="review-btn" class="btn btn-primary"
-                                                            sec:authorize="isAuthenticated()" type="button">Send your
-                                                        review
+                                                            sec:authorize="isAuthenticated()" type="button">Đăng
                                                     </button>
                                                     <a th:href="@{/login}" sec:authorize="!isAuthenticated()">
                                                         <button id="review-btn" class="btn btn-primary" type="button">
-                                                            You must login to send your review
+                                                            Bạn cần đăng nhập để đánh giá
                                                         </button>
                                                     </a>
                                                 </div>

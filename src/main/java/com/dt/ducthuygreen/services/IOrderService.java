@@ -16,6 +16,8 @@ public interface IOrderService {
 
     Order createNewOrder(String userName, OrderDTO orderDTO);
 
+    Order createNewOrder2(String userName, OrderDTO orderDTO);
+
     Order updateOrder(OrderDTO orderDTO);
 
 //    List<Order> getAllOrderByUserId(Long userId);

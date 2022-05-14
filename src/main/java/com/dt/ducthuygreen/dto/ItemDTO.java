@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Setter
 public class ItemDTO {
 //	private String size;
+	private Long id;
 	private Integer quantity;
 	private Boolean status;
 	private Long price;

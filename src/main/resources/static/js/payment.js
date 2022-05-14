@@ -56,13 +56,30 @@ $(document).ready(function () {
             phone_number.match(/^(\+?1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
     }, "Please specify a valid phone number");
 
-    $("#formaddress").validate({
+    $("#form-check-out").validate({
         rules: {
             phone: {
                 phoneUS: true
             }
         }
     });
+
+    $('#btn-checkout2').on('click', function () {
+        if (totalQuantity == 0) {
+            var alert = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <div class="alert-message" style="text-align: center">
+                                    <strong>Không có sản phâm nào trong giỏ<a href="/product/"> click </a>để quay lại mua sắm</strong>
+                                    </div>
+                                </div>`
+            $('#checkout-form').prepend(alert);
+        } else {
+            if ($('#form-check-out').valid()) {
+                $('#form-check-out').submit();
+            }
+            ;
+        }
+    })
 
     $('#btn-checkout').on('click', function () {
         if ($('#formaddress').valid()) {
@@ -118,11 +135,11 @@ $(document).ready(function () {
                         console.log("Error: ", JSON.stringify(e));
                     }
                 })
-            }else {
+            } else {
                 var alert = `<div class="alert alert-danger alert-dismissible" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     <div class="alert-message" style="text-align: center">
-                                    <strong>Không có sản phâm nào trong giỏ<a href="/product/">click</a> quay lại mua sắm</strong>
+                                    <strong>Không có sản phâm nào trong giỏ<a href="/product/"> click </a>để quay lại mua sắm</strong>
                                     </div>
                                 </div>`
                 $('#checkout-form').prepend(alert);
@@ -132,6 +149,7 @@ $(document).ready(function () {
     (function () {
         fetchOrder();
     })();
+
     function fetchCart() {
         var userName = $('#userName').text();
         $.ajax({

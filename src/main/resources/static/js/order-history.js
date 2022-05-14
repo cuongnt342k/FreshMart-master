@@ -14,11 +14,11 @@ $(document).ready(function () {
                 $.each(response.content, (i, order) => {
                     var cancel;
                     if (order.confirm == 0) {
-                        cancel = `<button  id="${order.id}" type="button" class="btn btn-danger btn-cancel">Cancel</button>`;
+                        cancel = `<button  id="${order.id}" type="button" class="btn btn-danger btn-cancel">Hủy đơn</button>`;
                     } else if (order.confirm == 2) {
-                        cancel = `<span style="color: #8e0615"><strong></strong>Canceled</span>`;
+                        cancel = `<span style="color: #8e0615"><strong></strong>Đã Hủy</span>`;
                     } else {
-                        cancel = `<span style="color: #1b8a4d"><strong></strong>Success</span>`;
+                        cancel = `<span style="color: #1b8a4d"><strong></strong>Thành công</span>`;
                     }
                     let row = ` <tr>
                             <td>

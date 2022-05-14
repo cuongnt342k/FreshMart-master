@@ -17,4 +17,6 @@ public interface IItemService {
     Item creatNewItemWithAccountFaceBook(ItemDTO itemDTO, Long productId, String username);
 
     void deleteItemById(Long id);
+
+    boolean update(ItemDTO itemDTO);
 }

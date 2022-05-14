@@ -89,7 +89,7 @@ public class ItemServiceImpl implements IItemService {
         items.add(item);
         Item newItem = itemRepository.save(item);
         itemRepository.save(newItem);
-        if (product.getQuantity() > 0){
+        if (product.getQuantity() > 0) {
             product.setQuantity(product.getQuantity() - item.getQuantity());
             productService.save(product);
         }
@@ -135,7 +135,7 @@ public class ItemServiceImpl implements IItemService {
         items.add(item);
         Item newItem = itemRepository.save(item);
         itemRepository.save(newItem);
-        if (product.getQuantity() > 0){
+        if (product.getQuantity() > 0) {
             product.setQuantity(product.getQuantity() - item.getQuantity());
             productService.save(product);
         }
@@ -153,6 +153,18 @@ public class ItemServiceImpl implements IItemService {
             cartRepository.save(cart);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean update(ItemDTO itemDTO) {
+        Item item = itemRepository.findItemById(itemDTO.getId());
+        try {
+            item.setQuantity(itemDTO.getQuantity());
+            itemRepository.save(item);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

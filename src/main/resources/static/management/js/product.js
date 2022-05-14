@@ -20,7 +20,6 @@ $(document).ready(function () {
                         '<td>' + product.price + '</td>' +
                         '<td>' + product.sold + '</td>' +
                         '<td>' + product.quantity + '</td>' +
-                        '<td>' + product.evaluate + '</td>' +
                         `<td>
                             <a  id="${product.id}" href="/admin/product/editProduct/${product.id}" "><i class="align-middle me-2 fas fa-fw fa-pencil-alt"></i>Edit</a>
                           </td>` +
