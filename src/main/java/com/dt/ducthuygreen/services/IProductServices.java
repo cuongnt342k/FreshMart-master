@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface IProductServices {
     Product create(ProductDTO productDTO, Long categoryId, MultipartFile file);
 
@@ -14,6 +16,10 @@ public interface IProductServices {
     Page<Product> getAllProductBySearch(Pageable pageable, String textSearch);
 
     Page<Product> getAllProductByCateID(Pageable pageable, Long id);
+
+    Page<Product> getAllProductByListCate(Pageable pageable, List<Long> listId);
+
+    Page<Product> getAllProductByPrice(Pageable pageable, Long first, Long second);
 
     Product getProductById(Long id);
 

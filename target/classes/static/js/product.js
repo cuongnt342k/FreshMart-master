@@ -1,13 +1,33 @@
 $(document).ready(function () {
     let totalPages = 1;
+    var value = "category";
 
-    function fetchProducts(startPage) {
-        var textSearch = $('#searchMovie').val();
-        var catID = $('#cateID').val()
+    function fetchProducts(startPage, val) {
+        var url;
+        if (val == "category") {
+            url = "/api/products/category?cateID=" + $('#cateID').val();
+        }
+        if (val == "categoryList") {
+            var listCategoryId = [];
+            $.each($("input[name='category-check-box']:checked"), function () {
+                listCategoryId.push(Number($(this).val()));
+            });
+            if (listCategoryId.length != 0) {
+                url = "/api/products/listCategory?listCategoryId=" + listCategoryId;
+            } else {
+                value = "category";
+                url = "/api/products/category?cateID=" + $('#cateID').val();
+            }
+        }
+        if (val == "search") {
+            url = "/api/products?textSearch=" + $('#textSearch').val();
+        }
+        if (val == "price") {
+            url = "/api/products/filter-price?first=" + Number($('#first').text().replace(/\s/g, '')) + "&second=" + Number($('#second').text().replace(/\s/g, ''));
+        }
         $.ajax({
             type: "GET",
-            // url: "/management/movie/api/list-movie?textSearch=" + textSearch,
-            url: "/api/products/category?cateID=" + catID,
+            url: url,
             data: {
                 page: startPage, size: 12
             },
@@ -29,14 +49,6 @@ $(document).ready(function () {
                                                        ${product.productName}
                                                     </a>
                                                 </div>
-
-<!--                                                <div class="product-rating">-->
-<!--                                                    <div class="star on"></div>-->
-<!--                                                    <div class="star on"></div>-->
-<!--                                                    <div class="star on "></div>-->
-<!--                                                    <div class="star on"></div>-->
-<!--                                                    <div class="star"></div>-->
-<!--                                                </div>-->
 
                                                 <div class="product-price">
                                                     <span class="sale-price">${product.price} VND</span>
@@ -80,6 +92,11 @@ $(document).ready(function () {
             }
         });
     }
+
+    $("#filter-price").on('click', function () {
+        value = "price"
+        fetchProducts(0, value);
+    })
 
     function removeItem(event) {
         var target = event.target;
@@ -238,17 +255,16 @@ $(document).ready(function () {
     }
 
     $(document).on("click", "ul.pagination li a", function () {
-        var data = $(this).attr('data');
         let val = $(this).text();
         console.log('val: ' + val);
 
         if (val.toUpperCase() === "« FIRST") {
             let currentActive = $("li a.current");
-            fetchProducts(0);
+            fetchProducts(0, value);
             $("li a.current").removeClass("current");
             currentActive.next().addClass("current");
         } else if (val.toUpperCase() === "LAST »") {
-            fetchProducts(totalPages - 1);
+            fetchProducts(totalPages - 1, value);
             $("li a.current").removeClass("current");
             currentActive.next().addClass("current");
         } else if (val.toUpperCase() === "NEXT ›") {
@@ -256,7 +272,7 @@ $(document).ready(function () {
             if (activeValue < totalPages) {
                 let currentActive = $("li a.current");
                 startPage = activeValue;
-                fetchProducts(startPage);
+                fetchProducts(startPage, value);
                 $("li.active").removeClass("current");
                 currentActive.next().addClass("current");
             }
@@ -264,25 +280,83 @@ $(document).ready(function () {
             let activeValue = parseInt($("ul.pagination li a.current").text());
             if (activeValue > 1) {
                 startPage = activeValue - 2;
-                fetchProducts(startPage);
+                fetchProducts(startPage, value);
                 let currentActive = $("li a.current");
                 currentActive.removeClass("current");
                 currentActive.prev().addClass("current");
             }
         } else {
             startPage = parseInt(val - 1);
-            fetchProducts(startPage);
+            fetchProducts(startPage, value);
             $("li.active").removeClass("current");
             $(this).parent().addClass("current");
         }
     });
 
+    // $('#searchMovie').on('input', function (e) {
+    //     fetchProducts(0);
+    // });
+
+    function fetchCategory() {
+        $.ajax({
+            type: "GET",
+            url: "/api/categories",
+            dataType: 'json',
+            success: function (response) {
+                $('#block-cate').empty();
+                $.each(response.content, (i, category) => {
+                    let row = ` <div class="item">
+                                <a class="category-title" href="/category/${category.id}">${category.categoryName}</a>
+                            </div>`;
+                    $('#block-cate').append(row);
+                });
+            }, error: function (e) {
+                alert("ERROR: ", e);
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function fetchCategory2() {
+        $.ajax({
+            type: "GET",
+            url: "/api/categories",
+            dataType: 'json',
+            success: function (response) {
+                $('#block-cate-2').empty();
+                $.each(response.content, (i, category) => {
+                    let row = `<li><label class="check">
+														<span class="custom-checkbox">
+															<input name="category-check-box" type="checkbox" value="${category.id}">
+															<span class="checkmark"></span>
+														</span>
+                                                <a>${category.categoryName}</a>
+                                            </label>
+                                        </li>`;
+                    $('#block-cate-2').append(row);
+                });
+            }, error: function (e) {
+                alert("ERROR: ", e);
+                console.log("ERROR: ", e);
+            }
+        }).done(function () {
+            $("input[name='category-check-box']").change(function () {
+                value = "categoryList";
+                fetchProducts(0, value);
+            })
+        });
+    }
+
+
     (function () {
-        fetchProducts(0);
+        fetchCategory2();
+        fetchCategory();
+        fetchProducts(0, value);
     })();
 
-    $('#searchMovie').on('input', function (e) {
-        fetchProducts(0);
-    });
 
+    $("#search").on('click', function () {
+        value = "search";
+        fetchProducts(0, value);
+    })
 });

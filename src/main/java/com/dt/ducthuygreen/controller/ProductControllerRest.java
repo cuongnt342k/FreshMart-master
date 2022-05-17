@@ -10,34 +10,41 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/products")
 public class ProductControllerRest {
     @Autowired
-    private IProductServices IProductServices;
+    private IProductServices productServices;
 
     @GetMapping
     @ResponseBody
     public ResponseEntity<?> getAllProduct(Pageable pageable, @RequestParam(required = false) String textSearch) {
         if (textSearch != null)
-            return ResponseEntity.status(200).body(IProductServices.getAllProductBySearch(pageable, textSearch));
-        return ResponseEntity.status(200).body(IProductServices.getAllProduct(pageable));
+            return ResponseEntity.status(200).body(productServices.getAllProductBySearch(pageable, textSearch));
+        return ResponseEntity.status(200).body(productServices.getAllProduct(pageable));
     }
 
-//    @GetMapping("/{id}")
-//    public String getProductById(@PathVariable("id") Long id, Model model) {
-//        model.addAttribute("product", productServices.getProductById(id));
-//        return "detail";
-//    }
+    @GetMapping("/listCategory")
+    @ResponseBody
+    public ResponseEntity<?> getAllProductByListCategory(Pageable pageable, @RequestParam List<Long> listCategoryId) {
+        return ResponseEntity.status(200).body(productServices.getAllProductByListCate(pageable, listCategoryId));
+    }
+
+    @GetMapping("/filter-price")
+    @ResponseBody
+    public ResponseEntity<?> getAllProductByPrice(Pageable pageable, @RequestParam(required = false) Long first, @RequestParam(required = false) Long second) {
+        return ResponseEntity.status(200).body(productServices.getAllProductByPrice(pageable, first, second));
+    }
 
     @GetMapping("/category")
     @ResponseBody
     public ResponseEntity<?> getProductByCateId(Pageable pageable, @RequestParam(required = false) Long cateID) {
         if (cateID == null) {
-            return ResponseEntity.status(200).body(IProductServices.getAllProduct(pageable));
+            return ResponseEntity.status(200).body(productServices.getAllProduct(pageable));
         }
-        return ResponseEntity.status(200).body(IProductServices.getAllProductByCateID(pageable, cateID));
+        return ResponseEntity.status(200).body(productServices.getAllProductByCateID(pageable, cateID));
     }
 
     @PostMapping("/addProduct")
@@ -47,7 +54,7 @@ public class ProductControllerRest {
             @Valid @ModelAttribute ProductDTO productDTO,
             @RequestParam(name = "multipartFile", required = false) MultipartFile image
     ) {
-        return ResponseEntity.status(201).body(IProductServices.create(productDTO, cateId, image));
+        return ResponseEntity.status(201).body(productServices.create(productDTO, cateId, image));
     }
 
     @PostMapping("/{productId}/image")
@@ -56,7 +63,7 @@ public class ProductControllerRest {
             @PathVariable("productId") Long productId,
             @RequestParam(name = "image", required = false) MultipartFile image
     ) {
-        return ResponseEntity.status(201).body(IProductServices.changeIamge(productId, image));
+        return ResponseEntity.status(201).body(productServices.changeIamge(productId, image));
     }
 
     @PutMapping("/editProduct")
@@ -67,13 +74,13 @@ public class ProductControllerRest {
             @RequestParam(name = "multipartFile", required = false) MultipartFile image
     ) {
         return ResponseEntity.status(200)
-                .body(IProductServices.editProductById(productDTO, cateId, image));
+                .body(productServices.editProductById(productDTO, cateId, image));
     }
 
     @DeleteMapping("/deleteProduct/{id}")
     @ResponseBody
     public String deleteProductById(@PathVariable("id") Long id) {
-        if (IProductServices.deleteProductById(id)) return "Successfully";
+        if (productServices.deleteProductById(id)) return "Successfully";
         return "Error";
     }
 

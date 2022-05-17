@@ -17,4 +17,14 @@ public class HomeController {
     public String accessDeniedPage() {
         return "/403";
     }
+
+    @GetMapping("contact")
+    public String contactPage() {
+        return "/contact";
+    }
+
+    @GetMapping("about-us")
+    public String aboutPage() {
+        return "/about-us";
+    }
 }

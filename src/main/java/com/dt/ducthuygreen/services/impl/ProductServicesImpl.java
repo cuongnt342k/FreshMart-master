@@ -1,5 +1,7 @@
 package com.dt.ducthuygreen.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +29,7 @@ public class ProductServicesImpl implements IProductServices {
     private ProductRepository productRepository;
 
     @Autowired
-    private ICategoryService ICategoryService;
+    private ICategoryService categoryService;
 
     private UploadFile uploadFile = new UploadFile();
 
@@ -56,10 +58,24 @@ public class ProductServicesImpl implements IProductServices {
     }
 
     @Override
+    public Page<Product> getAllProductByListCate(Pageable pageable, List<Long> listId) {
+        List<Category> categoryList = new ArrayList<>();
+        listId.forEach(id -> {
+            categoryList.add(categoryService.findById(id));
+        });
+        return productRepository.findProductsByCategoryInAndDeletedFalse(pageable, categoryList);
+    }
+
+    @Override
+    public Page<Product> getAllProductByPrice(Pageable pageable, Long first, Long second) {
+        return productRepository.findProductsByPriceBetweenAndDeletedFalse(pageable, first, second);
+    }
+
+    @Override
     public Product create(ProductDTO productDTO, Long categoryId, MultipartFile file) {
         Product product = new Product();
         productDTO.setSold(0);
-        Category category = ICategoryService.findById(categoryId);
+        Category category = categoryService.findById(categoryId);
 
         if (category == null) {
             throw new NotFoundException("Can not find category id: " + categoryId);
@@ -80,7 +96,7 @@ public class ProductServicesImpl implements IProductServices {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setQuantity(productDTO.getQuantity());
-        Category category = ICategoryService.findById(categoryId);
+        Category category = categoryService.findById(categoryId);
         product.setCategory(category);
         if (file != null) {
             product.setImage(uploadFile.getUrlFromFile(file));
