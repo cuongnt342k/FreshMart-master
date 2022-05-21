@@ -19,9 +19,11 @@ $(document).ready(function () {
                 url = "/api/products/category?cateID=" + $('#cateID').val();
             }
         }
+
         if (val == "search") {
             url = "/api/products?textSearch=" + $('#textSearch').val();
         }
+
         if (val == "price") {
             url = "/api/products/filter-price?first=" + Number($('#first').text().replace(/\s/g, '')) + "&second=" + Number($('#second').text().replace(/\s/g, ''));
         }

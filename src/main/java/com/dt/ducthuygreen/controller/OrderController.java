@@ -21,13 +21,13 @@ public class OrderController {
     @Autowired
     IOrderService orderService;
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public String checkoutPage() {
 
         return "check-out";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/")
     public String checkoutPage2(Model model) {
         OrderDTO order = new OrderDTO();
         model.addAttribute("order", order);
@@ -48,6 +48,6 @@ public class OrderController {
         Order o = orderService.createNewOrder2(principal.getName(), order);
         String message = "Đặt hàng thành công. Mã đơn hàng là: " + o.getId().toString();
         model.addAttribute("message", message);
-        return "redirect:/check-out/history";
+        return "order-history";
     }
 }

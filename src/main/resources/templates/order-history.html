@@ -46,6 +46,11 @@
         </div>
 
         <div class="container">
+
+            <div th:if="${message != null} " class="alert alert-success" role="alert" th:text = "${message}">
+
+            </div>
+
             <div class="page-cart">
                 <div class="table-responsive">
                     <table class="cart-summary table table-bordered" id="order-table">
@@ -74,7 +79,8 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,7 +90,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết đơn hàng</h5>
                 </div>
                 <div class="modal-body" id="order-detail">
-                    <form id="form-detail"  class="form-horizontal">
+                    <form id="form-detail" class="form-horizontal">
 
                     </form>
                     <div class="panel panel-default">

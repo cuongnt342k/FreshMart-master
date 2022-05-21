@@ -125,10 +125,9 @@ $(document).ready(function () {
                                     <tr>
                                         <td colspan="3">
                                             <div class="cart-button">
-                                                <a class="btn btn-primary" href="/cart/" title="View Cart">View
-                                                    Cart</a>
+                                                <a class="btn btn-primary" href="/cart/" title="View Cart">Xem giỏ hàng</a>
                                                 <a class="btn btn-primary" href="/check-out/"
-                                                   title="Checkout">Checkout</a>
+                                                   title="Checkout">Đặt hàng</a>
                                             </div>
                                         </td>`;
                 $('#item-table tbody').append(totalAndBtn);

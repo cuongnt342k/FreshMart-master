@@ -1,0 +1,12 @@
+
+¥
+java:S1130"‰Remove the declaration of thrown exception 'org.apache.http.client.ClientProtocolException' which is a subclass of 'java.io.IOException'.(¼°´âûÿÿÿÿ
+L
+java:S58697"*Remove duplicates in this character class.(ŸÌ·ªøÿÿÿÿ8­ä·´†0
+e
+java:S1128"ORemove this unused import 'org.springframework.security.core.userdetails.User'.(–Ä€
+l
+java:S1128"VRemove this unused import 'org.springframework.security.core.userdetails.UserDetails'.(ÊÁ¥
+o
+java:S22933"YReplace the type specification in this constructor call with the diamond operator ("<>").(«ä¶
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÅÚİµúÿÿÿÿ

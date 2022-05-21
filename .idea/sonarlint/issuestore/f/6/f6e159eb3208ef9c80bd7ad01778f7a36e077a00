@@ -1,0 +1,9 @@
+
+Q	java:S125"<This block of commented-out lines of code should be removed.(°‰Úº
+¥
+java:S1130#"‰Remove the declaration of thrown exception 'org.apache.http.client.ClientProtocolException' which is a subclass of 'java.io.IOException'.(§½ìŞşÿÿÿÿ
+Q	java:S1256"<This block of commented-out lines of code should be removed.(ØÁÈ¥
+J
+java:S1128"4Remove this unused import 'java.util.regex.Matcher'.(ëÅ›ã
+O
+java:S1128"4Remove this unused import 'java.util.regex.Pattern'.(Ã•…Äúÿÿÿÿ

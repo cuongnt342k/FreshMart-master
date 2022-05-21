@@ -1,12 +1,17 @@
 package com.dt.ducthuygreen.services.impl;
 
 import java.io.InvalidObjectException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.login.LoginException;
 
+import com.dt.ducthuygreen.entities.Cart;
+import com.dt.ducthuygreen.repos.CartRepository;
 import com.dt.ducthuygreen.repos.RoleRepository;
 import com.dt.ducthuygreen.repos.UserRepository;
+import com.dt.ducthuygreen.services.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,6 +34,10 @@ import com.dt.ducthuygreen.services.IUserService;
 
 @Service
 public class AuthServiceImp implements AuthService {
+
+    @Autowired
+    private CartRepository cartRepository;
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -106,16 +115,22 @@ public class AuthServiceImp implements AuthService {
             throw new InvalidObjectException("Invalid user");
         }
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        if (user.getRoles().isEmpty()) {
+        if (userDTO.getRoles() == null) {
             Role role = roleService.getRoleByName("ROLE_MEMBER");
             user.setRoles(Set.of(role));
         } else {
-            for (Role role : userDTO.getRoles()) {
-                role = roleRepository.findRoleById(role.getId());
-                user.getRoles().add(role);
-            }
+            List<Role> roleList = new ArrayList<>();
+            userDTO.getRoles().forEach(role ->{
+                Role r = roleRepository.findRoleById(role.getId());
+                roleList.add(r);
+            });
+            user.getRoles().addAll(roleList);
         }
         user.setStatus(1);
+        Cart cart = new Cart();
+        cart.setUserName(user.getUsername());
+        cartRepository.save(cart);
+        user.setCart(cart);
         user.setDeleted(false);
         IUserService.save(user);
         Authentication authentication = authenticationManager

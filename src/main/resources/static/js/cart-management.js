@@ -81,7 +81,7 @@ $(document).ready(function () {
                     cache: false,
                     success: function (result) {
                         if (result == "Successfully") {
-                            toastr.success("Update successfully!");
+                            toastr.success("Thành công!");
                             fetchCart();
                         }
                     },
